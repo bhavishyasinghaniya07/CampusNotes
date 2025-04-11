@@ -6,10 +6,12 @@ import Profile from "./Pages/Profile";
 import Signout from "./Pages/Signup.jsx";
 import About from "./Pages/About";
 import Signup from "./Pages/Signup.jsx";
+import Header from "./components/Header.jsx";
 
 const App = () => {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
