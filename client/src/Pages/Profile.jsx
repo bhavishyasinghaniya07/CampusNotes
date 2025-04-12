@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import {
   signInFailure,
   updateUserFailure,
@@ -137,6 +138,12 @@ const Profile = () => {
         <button className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80">
           Update
         </button>
+        <Link
+          to={"/uploading-notes"}
+          className="bg-green-700 p-3 rounded-lg uppercase text-white text-center hover:opacity-95"
+        >
+          Upload Your Notes
+        </Link>
       </form>
       <div className="flex justify-between mt-5">
         <span

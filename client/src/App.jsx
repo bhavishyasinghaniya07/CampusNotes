@@ -8,6 +8,7 @@ import About from "./Pages/About";
 import Signup from "./Pages/Signup.jsx";
 import Header from "./components/Header.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import UploadingNotes from "./Pages/CreateUploading.jsx";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/about" element={<About />}></Route>
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/uploading-notes" element={<UploadingNotes />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
