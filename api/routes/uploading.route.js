@@ -1,5 +1,8 @@
 import express from "express";
-import { notesUploading } from "../controllers/uploading.controller.js";
+import {
+  notesUploading,
+  deleteNotes,
+} from "../controllers/uploading.controller.js";
 import { verifyToken } from "../utils/verifyUser.js";
 import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
@@ -29,5 +32,6 @@ const upload = multer({ storage });
 
 // 🚀 Upload route with file handling
 router.post("/upload", verifyToken, upload.single("file"), notesUploading);
+router.delete("/delete/:id", verifyToken, deleteNotes);
 
 export default router;

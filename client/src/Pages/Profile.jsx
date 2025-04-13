@@ -131,6 +131,25 @@ const Profile = () => {
     }
   };
 
+  const handleNotesDelete = async (uploadingId) => {
+    try {
+      const res = await fetch(`/api/uploading/delete/${uploadingId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setUserUploads((prev) =>
+        prev.filter((uploads) => uploads._id !== uploadingId)
+      );
+    } catch (error) {
+      console.log(error.message);
+      return;
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto ">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -225,7 +244,12 @@ const Profile = () => {
                 <p>{uploads.title}</p>
               </Link>
               <div className="flex items-center flex-col">
-                <button className="text-red-700 uppercase">Delete</button>
+                <button
+                  className="text-red-700 uppercase"
+                  onClick={() => handleNotesDelete(uploads._id)}
+                >
+                  Delete
+                </button>
                 <button className="text-green-700 uppercase">Edit</button>
               </div>
             </div>

@@ -1,4 +1,5 @@
 import Note from "../models/uploading.model.js";
+import { errorHandler } from "../utils/error.js";
 export const notesUploading = async (req, res, next) => {
   try {
     let fileUrl = "";
@@ -59,5 +60,27 @@ export const notesUploading = async (req, res, next) => {
   } catch (error) {
     console.error("Error uploading note:", error);
     next(error); // Pass error to the next middleware (error handler)
+  }
+};
+
+export const deleteNotes = async (req, res, next) => {
+  const note = await Note.findById(req.params.id);
+
+  if (!note) {
+    return next(errorHandler(404, "Notes not found"));
+  }
+
+  console.log("User trying to delete:", req.user.id);
+  console.log("Note uploaded by:", note.uploader);
+
+  if (req.user.id !== note.uploader.toString()) {
+    return next(errorHandler(401, "You can only delete your own uploads"));
+  }
+
+  try {
+    await Note.findByIdAndDelete(req.params.id);
+    res.status(200).json("Notes has been deleted");
+  } catch (error) {
+    next(error);
   }
 };
