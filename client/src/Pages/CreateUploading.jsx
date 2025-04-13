@@ -1,7 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const CreateUploading = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState("");
   const [file, setFile] = useState(null);
   const courses = [
@@ -165,6 +167,20 @@ const CreateUploading = () => {
     // Add MCA (Master of Computer Applications)
     "MCA (Master of Computer Applications)",
   ];
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    collegeName: "",
+    courseName: "",
+    batch: "",
+    subjectName: "",
+    semester: "",
+    fileUrl: "", // Store the file URL once uploaded
+    uploader: currentUser._id, // Store the uploader ID (or name)
+  });
 
   const filteredCourses = courses.filter((course) =>
     course.toLowerCase().includes(searchTerm.toLowerCase())
@@ -172,9 +188,56 @@ const CreateUploading = () => {
   const handleFileChange = (e) => {
     setFile(e.target.files[0]); // Store the selected file in state
   };
+
+  const handleCourseSelect = (course) => {
+    setFormData((prev) => ({ ...prev, courseName: course }));
+  };
+
+  console.log(formData);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      setError(false);
+      const res = await fetch("/api/uploading/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          userRef: currentUser._id,
+        }),
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (data.success === false) {
+        setError(data.message);
+      }
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <main>
-      <form className="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-10 mt-10 space-y-6">
+      <form
+        action="/upload"
+        method="POST"
+        encType="multipart/form-data"
+        onSubmit={handleSubmit}
+        className="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-10 mt-10 space-y-6"
+      >
         <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800">
           📄 Upload Your Notes
         </h2>
@@ -190,9 +253,12 @@ const CreateUploading = () => {
           <input
             type="text"
             id="title"
+            name="title"
             placeholder="e.g. Data Structures Notes"
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             required
+            onChange={handleChange}
+            value={formData.title}
           />
         </div>
 
@@ -206,9 +272,12 @@ const CreateUploading = () => {
           </label>
           <textarea
             id="description"
+            name="description"
             placeholder="Short summary..."
             className="w-full p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500"
             rows="3"
+            onChange={handleChange}
+            value={formData.description}
           ></textarea>
         </div>
 
@@ -222,7 +291,8 @@ const CreateUploading = () => {
           </label>
           <input
             type="file"
-            id="file"
+            id="fileUrl"
+            name="fileUrl"
             onChange={handleFileChange}
             accept=".pdf,.doc,.docx,.txt"
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
@@ -233,7 +303,6 @@ const CreateUploading = () => {
               Selected file: {file.name}
             </p>
           )}{" "}
-          {/* Show the file name after selecting */}
         </div>
 
         {/* College Name */}
@@ -247,9 +316,12 @@ const CreateUploading = () => {
           <input
             type="text"
             id="collegeName"
+            name="collegeName"
             placeholder="e.g. XYZ University"
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             required
+            onChange={handleChange}
+            value={formData.collegeName}
           />
         </div>
 
@@ -264,15 +336,23 @@ const CreateUploading = () => {
           <input
             type="text"
             id="courseName"
+            name="courseName"
             placeholder="Search for Course"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            // value={searchTerm}
+            onChange={handleChange}
+            value={formData.courseName}
+            // onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
           />
           {/* Display Filtered Course Options */}
           <div className="max-h-40 overflow-y-auto mt-2 bg-white border border-gray-300 rounded-lg shadow-lg">
             {filteredCourses.map((course, index) => (
-              <div key={index} className="p-3 hover:bg-gray-100 cursor-pointer">
+              <div
+                key={index}
+                // onClick={() => setSearchTerm(course)}
+                onClick={() => handleCourseSelect(course)}
+                className="p-3 hover:bg-gray-100 cursor-pointer"
+              >
                 {course}
               </div>
             ))}
@@ -289,8 +369,11 @@ const CreateUploading = () => {
           </label>
           <select
             id="batch"
+            name="batch"
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             required
+            onChange={handleChange}
+            value={formData.batch}
           >
             <option value="">Select Batch</option>
             <option value="2020-2024">2020-2024</option>
@@ -311,7 +394,15 @@ const CreateUploading = () => {
                 key={sem}
                 className="flex items-center gap-2 text-gray-600 text-sm"
               >
-                <input type="radio" name="semester" value={sem} required />
+                <input
+                  id="semester"
+                  type="radio"
+                  name="semester"
+                  value={sem}
+                  required
+                  onChange={handleChange}
+                  // value={formData.collegeName}
+                />
                 Sem {sem}
               </label>
             ))}
@@ -329,28 +420,32 @@ const CreateUploading = () => {
           <input
             type="text"
             id="subjectName"
+            name="subjectName"
             placeholder="e.g. DBMS"
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             required
+            onChange={handleChange}
+            value={formData.subjectName}
           />
         </div>
 
-        {/* Confirmation */}
+        {/* Confirmation
         <div className="flex items-start gap-3">
           <input type="checkbox" id="confirm" required className="mt-1" />
           <label htmlFor="confirm" className="text-sm text-gray-700">
             I confirm this is original content and I have permission to share
             it.
           </label>
-        </div>
+        </div> */}
 
         {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300"
         >
-          🚀 Upload Note
+          {loading ? "Uploading..." : "Upload Notes"}
         </button>
+        {error && <p className="text-rd-700 text-sm">{error}</p>}
       </form>
     </main>
   );
