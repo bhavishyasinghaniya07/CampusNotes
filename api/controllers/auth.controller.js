@@ -39,6 +39,7 @@ export const signin = async (req, res, next) => {
 export const google = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
+
     if (user) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = user._doc;
@@ -50,16 +51,25 @@ export const google = async (req, res, next) => {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
         Math.random().toString(36).slice(-8);
-      const hashsedPassword = bcryptjs.hashSync(generatedPassword, 10);
+      const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+
+      // ☁ Upload Google profile photo to Cloudinary
+      const result = await cloudinary.v2.uploader.upload(req.body.photo, {
+        folder: "avatars",
+        public_id: `google-${Date.now()}`,
+      });
+
       const newUser = new User({
         username:
           req.body.name.split(" ").join("").toLowerCase() +
           Math.random().toString(36).slice(-4),
         email: req.body.email,
-        password: hashsedPassword,
-        avatar: req.body.photo,
+        password: hashedPassword,
+        avatar: result.secure_url, // use uploaded URL
       });
+
       await newUser.save();
+
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = newUser._doc;
       res

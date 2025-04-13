@@ -30,12 +30,30 @@ const Profile = () => {
     }
   }, [file]);
 
-  const handleFileUpload = (file) => {
-    // put all the code here to upload the profile image to firestore .
-    console.log(file);
-    alert("An unknown error had occured , please try again after some time.");
+  const handleFileUpload = async (file) => {
+    const formData = new FormData();
+    formData.append("avatar", file);
+    formData.append("username", formData.username || currentUser.username);
+    formData.append("email", formData.email || currentUser.email);
+    if (formData.password) formData.append("password", formData.password);
 
-    // setFormData({ ...formData, avatar });
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+        return;
+      }
+      dispatch(updateUserSuccess(data));
+      setUpdateSuccess(true);
+    } catch (error) {
+      dispatch(signInFailure(error.message));
+    }
   };
 
   const handleChange = (e) => {
