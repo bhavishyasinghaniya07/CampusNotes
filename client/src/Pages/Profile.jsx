@@ -21,6 +21,8 @@ const Profile = () => {
   const [file, setFile] = useState(undefined);
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
+  const [showUploadsError, setShowUploadsErrors] = useState(false);
+  const [userUploads, setUserUploads] = useState([]);
 
   useEffect(() => {
     if (file) {
@@ -95,6 +97,22 @@ const Profile = () => {
     }
   };
 
+  const handleShowUploads = async () => {
+    try {
+      setShowUploadsErrors(false);
+      const res = await fetch(`/api/user/uploads/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowUploadsErrors(true);
+        return;
+      }
+
+      setUserUploads(data);
+    } catch (error) {
+      showUploadsError(true);
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto ">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -156,6 +174,46 @@ const Profile = () => {
           Sign out
         </span>
       </div>
+      <button onClick={handleShowUploads} className="text-green-700 w-full">
+        See Your Previous Uploads
+      </button>
+      <p className="text-red-700 mt-5">
+        {showUploadsError ? "There is some error" : ""}
+      </p>
+
+      {userUploads && userUploads.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h1 className="text-center mt-7 text-2xl font-semibold">
+            Your Uploads
+          </h1>
+          {userUploads.map((uploads) => (
+            <div
+              className="border rounded-lg p-3 flex justify-between items-center gap-4"
+              key={uploads._id}
+            >
+              <Link to={`/uploads/${uploads._id}`}>
+                <img
+                  src={
+                    "https://imgs.search.brave.com/H1KkuYazb182pxLVqoy1tnc6R0jU1urQdszmuBMXakM/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzk0LzQ1Lzkw/LzM2MF9GXzI5NDQ1/OTA4N19ZYmhEZUdW/a0lkaUltUjV0SUVY/dGx3aFcwWktlRnRw/ZC5qcGc"
+                  }
+                  alt="Notes cover"
+                  className="h-16 w-16 object-contain"
+                />
+              </Link>
+              <Link
+                className="text-slate-700 font-semibold flex-1 hover:underline truncate"
+                to={`/uploads/${uploads._id}`}
+              >
+                <p>{uploads.title}</p>
+              </Link>
+              <div className="flex items-center flex-col">
+                <button className="text-red-700 uppercase">Delete</button>
+                <button className="text-green-700 uppercase">Edit</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
