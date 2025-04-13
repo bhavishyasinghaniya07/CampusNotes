@@ -236,10 +236,6 @@ const CreateUploading = () => {
         }
       }
 
-      for (let pair of form.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
-      }
-
       const res = await fetch("/api/uploading/upload", {
         method: "POST",
         body: form,

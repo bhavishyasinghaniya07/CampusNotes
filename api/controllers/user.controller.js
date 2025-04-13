@@ -1,6 +1,7 @@
 import { errorHandler } from "../utils/error.js";
 import bcryptjs from "bcryptjs";
 import User from "../models/user.model.js";
+import Note from "../models/uploading.model.js";
 
 export const test = (req, res) => {
   res.json({
@@ -44,5 +45,19 @@ export const deleteUser = async (req, res, next) => {
     res.status(200).json("User has been deleted");
   } catch (error) {
     next(error);
+  }
+};
+
+export const getUserUploads = async (req, res, next) => {
+  if (req.user.id === req.params.id) {
+    try {
+      const notes = await Note.find({ uploader: req.params.id });
+      res.status(200).json(notes);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    console.log("Hii I am Here");
+    return next(errorHandler(401, "You can only view your own Uploads"));
   }
 };
