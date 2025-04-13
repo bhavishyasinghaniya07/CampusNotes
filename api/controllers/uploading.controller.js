@@ -70,9 +70,6 @@ export const deleteNotes = async (req, res, next) => {
     return next(errorHandler(404, "Notes not found"));
   }
 
-  console.log("User trying to delete:", req.user.id);
-  console.log("Note uploaded by:", note.uploader);
-
   if (req.user.id !== note.uploader.toString()) {
     return next(errorHandler(401, "You can only delete your own uploads"));
   }
@@ -80,6 +77,28 @@ export const deleteNotes = async (req, res, next) => {
   try {
     await Note.findByIdAndDelete(req.params.id);
     res.status(200).json("Notes has been deleted");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateNotes = async (req, res, next) => {
+  const note = await Note.findById(req.params.id);
+
+  if (!note) {
+    return next(errorHandler(404, "Notes not found"));
+  }
+
+  if (req.user.id !== note.uploader.toString()) {
+    return next(errorHandler(401, "You can only delete your own uploads"));
+  }
+
+  try {
+    const update = await Note.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+
+    res.status(200).json("Notes has been Updated");
   } catch (error) {
     next(error);
   }

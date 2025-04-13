@@ -2,6 +2,7 @@ import express from "express";
 import {
   notesUploading,
   deleteNotes,
+  updateNotes,
 } from "../controllers/uploading.controller.js";
 import { verifyToken } from "../utils/verifyUser.js";
 import multer from "multer";
@@ -33,5 +34,6 @@ const upload = multer({ storage });
 // 🚀 Upload route with file handling
 router.post("/upload", verifyToken, upload.single("file"), notesUploading);
 router.delete("/delete/:id", verifyToken, deleteNotes);
+router.post("/update/:id", verifyToken, updateNotes);
 
 export default router;
