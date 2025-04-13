@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
-const CreateUploading = () => {
+const UpdateNotes = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState("");
   const [file, setFile] = useState(null);
+  const params = useParams();
   const courses = [
     // Engineering (B.Tech/B.E)
     "Computer Science Engineering (B.Tech/B.E)",
@@ -190,7 +192,25 @@ const CreateUploading = () => {
     setFormData((prev) => ({ ...prev, courseName: course }));
   };
 
-  console.log(formData);
+  useEffect(() => {
+    const fetchUpdate = async () => {
+      const updateId = params.updateId;
+      const res = await fetch(`/api/uploading/get/${updateId}`);
+      const data = await res.json();
+
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+
+      console.log("FormData:", formData);
+      console.log("File:", file);
+      setFormData(data);
+    };
+
+    fetchUpdate();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setSearchTerm(e.target.value);
@@ -211,38 +231,33 @@ const CreateUploading = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!file && !formData.fileUrl) {
-      setError("Please select a file or provide a file URL");
-      return;
-    }
-
     try {
       setLoading(true);
-      setError(null); // Reset error state before making the request
+      setError(null);
 
       const form = new FormData();
 
       if (file) {
-        form.append("file", file, file.name); // Append the file if it exists
-      } else {
-        form.append("fileUrl", formData.fileUrl); // Append the URL if no file
-        form.append("fileName", formData.fileName || "File from URL"); // Optional filename
+        form.append("file", file, file.name);
+      } else if (formData.fileUrl) {
+        form.append("fileUrl", formData.fileUrl);
+        form.append("fileName", formData.fileName || "File from URL");
       }
 
-      // Append other form data fields to FormData
+      // Append other form data fields
       for (const key in formData) {
         if (key !== "fileUrl" && key !== "fileName") {
           form.append(key, formData[key]);
         }
       }
 
-      const res = await fetch("/api/uploading/upload", {
-        method: "POST",
+      const res = await fetch(`/api/uploading/update/${params.updateId}`, {
+        method: "POST", // ✅ Use PUT for updates
         body: form,
       });
 
       if (!res.ok) {
-        throw new Error(`Upload failed: ${res.statusText}`);
+        throw new Error(`Update failed: ${res.statusText}`);
       }
 
       const data = await res.json();
@@ -252,25 +267,25 @@ const CreateUploading = () => {
       if (data.success === false) {
         setError(data.message);
       } else {
-        alert("File uploaded successfully! ✅");
+        alert("Note updated successfully ✅");
       }
     } catch (err) {
       setError(`Error: ${err.message}`);
-      setLoading(false); // Ensure loading is set to false in case of failure
+      setLoading(false);
     }
   };
 
   return (
     <main>
       <form
-        action="/upload"
+        action="/update"
         method="POST"
         encType="multipart/form-data"
         onSubmit={handleSubmit}
         className="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-10 mt-10 space-y-6"
       >
         <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800">
-          📄 Upload Your Notes
+          📄 Update Your Notes
         </h2>
 
         {/* Title */}
@@ -312,7 +327,7 @@ const CreateUploading = () => {
           ></textarea>
         </div>
 
-        {/* File URL */}
+        {/* File Upload */}
         <div>
           <label
             htmlFor="file"
@@ -327,13 +342,24 @@ const CreateUploading = () => {
             onChange={handleFileChange}
             accept=".pdf,.doc,.docx,.txt"
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            required
           />
-          {file && (
+          {file ? (
             <p className="text-sm text-gray-600 mt-2">
               Selected file: {file.name}
             </p>
-          )}{" "}
+          ) : formData.fileUrl ? (
+            <p className="text-sm text-blue-600 mt-2">
+              Current file:{" "}
+              <a
+                href={formData.fileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                View uploaded file
+              </a>
+            </p>
+          ) : null}
         </div>
 
         {/* College Name */}
@@ -476,7 +502,7 @@ const CreateUploading = () => {
           type="submit"
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300"
         >
-          {loading ? "Uploading..." : "Upload Notes"}
+          {loading ? "Updating..." : "Update Notes"}
         </button>
         {error && <p className="text-rd-700 text-sm">{error}</p>}
       </form>
@@ -484,4 +510,4 @@ const CreateUploading = () => {
   );
 };
 
-export default CreateUploading;
+export default UpdateNotes;

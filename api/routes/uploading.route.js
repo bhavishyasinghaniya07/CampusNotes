@@ -3,6 +3,7 @@ import {
   notesUploading,
   deleteNotes,
   updateNotes,
+  getNotes,
 } from "../controllers/uploading.controller.js";
 import { verifyToken } from "../utils/verifyUser.js";
 import multer from "multer";
@@ -35,5 +36,6 @@ const upload = multer({ storage });
 router.post("/upload", verifyToken, upload.single("file"), notesUploading);
 router.delete("/delete/:id", verifyToken, deleteNotes);
 router.post("/update/:id", verifyToken, updateNotes);
+router.get("/get/:id", getNotes);
 
 export default router;
