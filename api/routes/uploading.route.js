@@ -18,6 +18,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
+    resource_type: "raw",
     folder: "notes", // Cloudinary folder
     allowed_formats: ["pdf", "doc", "docx", "txt"],
     public_id: (req, file) => `${Date.now()}-${file.originalname}`,
