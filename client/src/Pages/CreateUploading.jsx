@@ -185,9 +185,6 @@ const CreateUploading = () => {
   const filteredCourses = courses.filter((course) =>
     course.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]); // Store the selected file in state
-  };
 
   const handleCourseSelect = (course) => {
     setFormData((prev) => ({ ...prev, courseName: course }));
@@ -196,36 +193,74 @@ const CreateUploading = () => {
   console.log(formData);
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setSearchTerm(e.target.value);
     setFormData({
       ...formData,
       [name]: value,
     });
   };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]); // Store the selected file in state
+  };
+
+  const handleUrlChange = (e) => {
+    setFormData((prev) => ({ ...prev, fileUrl: e.target.value }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!file && !formData.fileUrl) {
+      setError("Please select a file or provide a file URL");
+      return;
+    }
+
     try {
       setLoading(true);
-      setError(false);
+      setError(null); // Reset error state before making the request
+
+      const form = new FormData();
+
+      if (file) {
+        form.append("file", file, file.name); // Append the file if it exists
+      } else {
+        form.append("fileUrl", formData.fileUrl); // Append the URL if no file
+        form.append("fileName", formData.fileName || "File from URL"); // Optional filename
+      }
+
+      // Append other form data fields to FormData
+      for (const key in formData) {
+        if (key !== "fileUrl" && key !== "fileName") {
+          form.append(key, formData[key]);
+        }
+      }
+
+      for (let pair of form.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
+
       const res = await fetch("/api/uploading/upload", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          userRef: currentUser._id,
-        }),
+        body: form,
       });
+
+      if (!res.ok) {
+        throw new Error(`Upload failed: ${res.statusText}`);
+      }
+
       const data = await res.json();
+
       setLoading(false);
+
       if (data.success === false) {
         setError(data.message);
+      } else {
+        alert("File uploaded successfully! ✅");
       }
-    } catch (error) {
-      setError(error.message);
-      setLoading(false);
+    } catch (err) {
+      setError(`Error: ${err.message}`);
+      setLoading(false); // Ensure loading is set to false in case of failure
     }
   };
 
@@ -350,7 +385,9 @@ const CreateUploading = () => {
               <div
                 key={index}
                 // onClick={() => setSearchTerm(course)}
-                onClick={() => handleCourseSelect(course)}
+                onClick={() => {
+                  handleCourseSelect(course);
+                }}
                 className="p-3 hover:bg-gray-100 cursor-pointer"
               >
                 {course}
