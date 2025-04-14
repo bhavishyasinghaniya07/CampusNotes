@@ -23,10 +23,11 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    resource_type: "raw",
-    folder: "notes", // Cloudinary folder
+    resource_type: "upload",
+    folder: "notes",
     allowed_formats: ["pdf", "doc", "docx", "txt"],
     public_id: (req, file) => `${Date.now()}-${file.originalname}`,
+    acl: "public-read", // Ensure that ACL is set to public
   },
 });
 

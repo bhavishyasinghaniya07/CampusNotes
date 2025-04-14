@@ -37,9 +37,11 @@ const Home = () => {
                 Upload Notes
               </button>
             </Link>
-            <button className="bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-gray-800 transition">
-              Browse Notes
-            </button>
+            <Link to={"/browse"}>
+              <button className="bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-gray-800 transition">
+                Browse Notes
+              </button>
+            </Link>
             {/* <button className="bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-gray-800 transition">
               Join Us
             </button> */}

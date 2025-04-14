@@ -11,6 +11,7 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import UploadingNotes from "./Pages/CreateUploading.jsx";
 import UpdateNotes from "./Pages/UpdateNotes.jsx";
 import Notes from "./Pages/Notes.jsx";
+import BrowseNotes from "./Pages/BrowseNotes.jsx";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/sign-in" element={<Signin />}></Route>
         <Route path="/sign-up" element={<Signup />}></Route>
         <Route path="/about" element={<About />}></Route>
+        <Route path="/browse" element={<BrowseNotes />}></Route>
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/uploading-notes" element={<UploadingNotes />}></Route>
