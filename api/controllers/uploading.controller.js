@@ -118,7 +118,7 @@ export const updateNotes = [
 
       await note.save();
 
-      res.status(200).json("Notes has been updated ✅");
+      res.status(200).json(note);
     } catch (error) {
       next(error);
     }
@@ -135,7 +135,10 @@ export const getNotes = async (req, res, next) => {
   try {
     const update = await Note.findByIdAndUpdate(req.params.id);
 
-    res.status(200).json(note);
+    res.status(200).json({
+      success: true,
+      note,
+    });
   } catch (error) {
     next(error);
   }

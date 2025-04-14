@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const UpdateNotes = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [file, setFile] = useState(null);
   const params = useParams();
@@ -196,6 +198,7 @@ const UpdateNotes = () => {
     const fetchUpdate = async () => {
       const updateId = params.updateId;
       const res = await fetch(`/api/uploading/get/${updateId}`);
+
       const data = await res.json();
 
       if (data.success === false) {
@@ -268,13 +271,14 @@ const UpdateNotes = () => {
         setError(data.message);
       } else {
         alert("Note updated successfully ✅");
+        // Use params.updateId to navigate to the Notes page
+        navigate(`/notes/${params.updateId}`);
       }
     } catch (err) {
       setError(`Error: ${err.message}`);
       setLoading(false);
     }
   };
-
   return (
     <main>
       <form

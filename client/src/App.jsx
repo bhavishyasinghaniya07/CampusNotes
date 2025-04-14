@@ -10,6 +10,7 @@ import Header from "./components/Header.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import UploadingNotes from "./Pages/CreateUploading.jsx";
 import UpdateNotes from "./Pages/UpdateNotes.jsx";
+import Notes from "./Pages/Notes.jsx";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />}></Route>
+        <Route path="/notes/:notesId" element={<Notes />}></Route>
 
         <Route path="/sign-in" element={<Signin />}></Route>
         <Route path="/sign-up" element={<Signup />}></Route>
