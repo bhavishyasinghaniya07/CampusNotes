@@ -1,6 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Home = () => {
+  const handleUploadClick = () => {
+    // If you're storing token in localStorage (e.g., after login)
+    const isLoggedIn = !!localStorage.getItem("token"); // or "user" if you're storing user info
+
+    if (isLoggedIn) {
+      navigate("/uploading-notes");
+    } else {
+      navigate("/signin"); // redirect to sign in page
+    }
+  };
   return (
     <div className="bg-gray-50">
       {/* Hero Section */}
@@ -20,15 +32,17 @@ const Home = () => {
             academic notes across multiple colleges and courses!
           </p>
           <div className="space-x-4">
-            <button className="bg-yellow-500 text-gray-800 py-3 px-6 rounded-lg hover:bg-yellow-600 transition">
-              Upload Notes
-            </button>
+            <Link to={"/uploading-notes"}>
+              <button className="bg-yellow-500 text-gray-800 py-3 px-6 rounded-lg hover:bg-yellow-600 transition">
+                Upload Notes
+              </button>
+            </Link>
             <button className="bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-gray-800 transition">
               Browse Notes
             </button>
-            <button className="bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-gray-800 transition">
+            {/* <button className="bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-gray-800 transition">
               Join Us
-            </button>
+            </button> */}
           </div>
         </div>
       </section>
@@ -196,9 +210,11 @@ const Home = () => {
         <p className="text-lg mb-6">
           Help 10,000+ students across India by sharing your notes today!
         </p>
-        <button className="bg-yellow-500 text-gray-800 py-3 px-6 rounded-lg hover:bg-yellow-600 transition">
-          Start Sharing
-        </button>
+        <Link to={"/uploading-notes"}>
+          <button className="bg-yellow-500 text-gray-800 py-3 px-6 rounded-lg hover:bg-yellow-600 transition">
+            Start Sharing
+          </button>
+        </Link>
       </section>
 
       {/* Stay Connected */}

@@ -206,21 +206,25 @@ const UpdateNotes = () => {
         return;
       }
 
-      console.log("FormData:", formData);
-      console.log("File:", file);
-      setFormData(data);
+      setFormData(data.note); // ✅ FIXED
+      console.log("Fetched data:", data.note);
     };
 
     fetchUpdate();
-  }, []);
+  }, [params.updateId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSearchTerm(e.target.value);
-    setFormData({
-      ...formData,
+
+    // Only update search term if the changed input is courseName
+    if (name === "courseName") {
+      setSearchTerm(value);
+    }
+
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
   const handleFileChange = (e) => {
@@ -325,7 +329,7 @@ const UpdateNotes = () => {
             name="description"
             placeholder="Short summary..."
             className="w-full p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500"
-            rows="3"
+            rows={3}
             onChange={handleChange}
             value={formData.description}
           ></textarea>

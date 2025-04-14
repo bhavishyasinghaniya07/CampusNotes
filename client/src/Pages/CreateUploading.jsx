@@ -1,11 +1,14 @@
 import React from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const CreateUploading = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState("");
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
+
   const courses = [
     // Engineering (B.Tech/B.E)
     "Computer Science Engineering (B.Tech/B.E)",
@@ -254,6 +257,7 @@ const CreateUploading = () => {
       } else {
         alert("File uploaded successfully! ✅");
       }
+      navigate(`/profile`);
     } catch (err) {
       setError(`Error: ${err.message}`);
       setLoading(false); // Ensure loading is set to false in case of failure
