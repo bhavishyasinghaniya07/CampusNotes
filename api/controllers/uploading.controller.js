@@ -1,9 +1,9 @@
 import Note from "../models/uploading.model.js";
 import { errorHandler } from "../utils/error.js";
 import fs from "fs";
-
-const upload = multer({ dest: "uploads/" });
 import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+const upload = multer({ dest: "uploads/" });
 
 export const notesUploading = async (req, res, next) => {
   try {
@@ -11,27 +11,23 @@ export const notesUploading = async (req, res, next) => {
     let fileName = "";
     let fileType = "";
 
+    // Check if a file has been uploaded
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path, {
-        resource_type: "raw", // Important for non-image files
-        folder: "notes",
-        public_id: `${Date.now()}-${req.file.originalname}`,
-      });
+      fileUrl = req.file.path || req.file.secure_url; // ✅ CORRECT
+      fileName = req.file.originalname;
+      fileType = req.file.mimetype;
+    }
 
-      // Delete local file after upload
-      fs.unlinkSync(req.file.path);
-
-      fileUrl = result.secure_url;
-      fileName = result.original_filename;
-      fileType = result.format; // 'pdf', 'docx', etc.
-    } else if (req.body.fileUrl) {
-      fileUrl = req.body.fileUrl;
+    // If no file uploaded, but a file URL is provided in the body
+    else if (req.body.fileUrl) {
+      fileUrl = req.file.path || req.file.secure_url;
       fileName = req.body.fileName || "Unnamed from URL";
-      fileType = "url";
+      fileType = "url"; // You can handle this as a special case
     } else {
       return res.status(400).json({ message: "No file or file URL provided" });
     }
 
+    // Ensure all required fields are included in the request body
     const {
       title,
       description,
@@ -43,6 +39,7 @@ export const notesUploading = async (req, res, next) => {
       uploader,
     } = req.body;
 
+    // Create a new note document with the provided information and file details
     const uploading = await Note.create({
       title,
       description,
@@ -51,7 +48,7 @@ export const notesUploading = async (req, res, next) => {
       batch,
       subjectName,
       semester,
-      uploader,
+      uploader, // Make sure `uploader` is a valid ObjectId
       fileUrl,
       fileName,
       fileType,
@@ -59,6 +56,7 @@ export const notesUploading = async (req, res, next) => {
 
     console.log("Note uploaded successfully:", uploading);
 
+    // Return success response with the newly created note
     return res.status(201).json({
       success: true,
       message: "Note uploaded successfully",
@@ -66,7 +64,7 @@ export const notesUploading = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Error uploading note:", error);
-    next(error);
+    next(error); // Pass error to the next middleware (error handler)
   }
 };
 
