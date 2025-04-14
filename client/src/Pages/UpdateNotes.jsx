@@ -266,6 +266,7 @@ const UpdateNotes = () => {
       if (!res.ok) {
         throw new Error(`Update failed: ${res.statusText}`);
       }
+      console.log(res);
 
       const data = await res.json();
 

@@ -49,33 +49,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Search & Filter Section */}
-      <section className="py-16 bg-gray-100 text-center">
-        <h2 className="text-3xl font-bold mb-6">Find the Perfect Notes</h2>
-        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <input
-            type="text"
-            className="p-4 w-full rounded-lg shadow-md"
-            placeholder="Search by College"
-          />
-          <input
-            type="text"
-            className="p-4 w-full rounded-lg shadow-md"
-            placeholder="Search by Course"
-          />
-          <input
-            type="text"
-            className="p-4 w-full rounded-lg shadow-md"
-            placeholder="Search by Semester"
-          />
-          <input
-            type="text"
-            className="p-4 w-full rounded-lg shadow-md"
-            placeholder="Search by Subject"
-          />
-        </div>
-      </section>
-
       {/* How It Works */}
       <section className="py-20 text-center bg-white">
         <h2 className="text-3xl font-semibold mb-6">How It Works</h2>
@@ -132,6 +105,10 @@ const Home = () => {
             <h3 className="text-xl font-semibold">User Interactions</h3>
             <p>Engage with other students through comments and likes.</p>
           </div>
+          <div className="bg-white text-gray-800 rounded-lg shadow-lg p-6">
+            <h3 className="text-xl font-semibold">Collaborative Learning</h3>
+            <p>Join a community of learners by sharing feedback.</p>
+          </div>
         </div>
       </section>
 
@@ -181,31 +158,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Notes */}
-      <section className="py-20 bg-gray-100 text-center">
-        <h2 className="text-3xl font-semibold mb-6">Featured Notes</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-bold">DBMS Notes</h3>
-            <p className="text-sm text-gray-600">
-              Subject: Database Management
-            </p>
-            <p className="text-gray-500">By: Bhavishya Sharma</p>
-            <button className="bg-blue-600 text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-700">
-              Download
-            </button>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-bold">Data Structures Notes</h3>
-            <p className="text-sm text-gray-600">Subject: Data Structures</p>
-            <p className="text-gray-500">By: Ritika Verma</p>
-            <button className="bg-blue-600 text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-700">
-              Download
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* Call to Action */}
       <section className="py-16 bg-blue-600 text-white text-center">
         <h2 className="text-3xl font-semibold mb-6">Join the Movement!</h2>
@@ -213,7 +165,7 @@ const Home = () => {
           Help 10,000+ students across India by sharing your notes today!
         </p>
         <Link to={"/uploading-notes"}>
-          <button className="bg-yellow-500 text-gray-800 py-3 px-6 rounded-lg hover:bg-yellow-600 transition">
+          <button className="cursor-pointer bg-yellow-500 text-gray-800 py-3 px-6 rounded-lg hover:bg-yellow-600 transition">
             Start Sharing
           </button>
         </Link>
@@ -221,7 +173,7 @@ const Home = () => {
 
       {/* Stay Connected */}
       <section className="py-16 bg-gray-100 text-center">
-        <h2 className="text-3xl font-semibold mb-6">Stay Connected</h2>
+        <h2 className="text-3xl font-semibold mb-6">Stay Connected With Us</h2>
         <div className="flex justify-center gap-8">
           <a href="#" className="text-blue-600 hover:text-blue-800">
             Facebook

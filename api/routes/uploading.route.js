@@ -23,11 +23,12 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    resource_type: "upload",
+    resource_type: "raw",
     folder: "notes",
     allowed_formats: ["pdf", "doc", "docx", "txt"],
     public_id: (req, file) => `${Date.now()}-${file.originalname}`,
-    acl: "public-read", // Ensure that ACL is set to public
+    // acl: "public-read", // Ensure that ACL is set to public
+    access_mode: "public",
   },
 });
 
@@ -35,7 +36,8 @@ const upload = multer({ storage });
 
 // 🚀 Upload route with file handling
 router.post("/upload", verifyToken, upload.single("file"), notesUploading);
-
+console.log("Upload route hit");
+console.log("Upload request received");
 router.delete("/delete/:id", verifyToken, deleteNotes);
 router.post("/update/:id", verifyToken, updateNotes);
 router.get("/get/:id", getNotes);
