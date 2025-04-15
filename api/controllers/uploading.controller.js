@@ -112,10 +112,12 @@ export const updateNotes = [
 
       // Update other fields
       if (req.body.title) note.title = req.body.title;
-      if (req.body.subject) note.subject = req.body.subject;
       if (req.body.description) note.description = req.body.description;
-      if (req.body.semester) note.semester = req.body.semester;
-      // Add more fields as needed...
+      if (req.body.subjectName) note.subjectName = req.body.subjectName; // Update subject
+      if (req.body.collegeName) note.collegeName = req.body.collegeName; // Update college name
+      if (req.body.courseName) note.courseName = req.body.courseName; // Update course name
+      if (req.body.batch) note.batch = req.body.batch; // Update batch
+      if (req.body.semester) note.semester = req.body.semester; // Update semester
 
       await note.save();
 

@@ -258,6 +258,9 @@ const UpdateNotes = () => {
           form.append(key, formData[key]);
         }
       }
+      for (let pair of form.entries()) {
+        console.log(pair[0] + ": " + pair[1]);
+      }
 
       const res = await fetch(`/api/uploading/update/${params.updateId}`, {
         method: "POST", // ✅ Use PUT for updates
