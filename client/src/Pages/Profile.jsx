@@ -445,14 +445,14 @@ const Profile = () => {
           onChange={handleChange}
           className="border p-3 rounded-lg focus:outline-blue-400"
         />
-        <input
+        {/* <input
           type="email"
           placeholder="Email"
           defaultValue={currentUser.email}
           id="email"
           onChange={handleChange}
           className="border p-3 rounded-lg focus:outline-blue-400"
-        />
+        /> */}
         <input
           type="password"
           placeholder="New Password"

@@ -2,6 +2,15 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { v2 as cloudinary } from "cloudinary";
+
+// 🔧 Cloudinary Config
+cloudinary.config({
+  cloud_name: "dinn2svqr",
+  api_key: "477623572645727",
+  api_secret: "58Bj2smsT6A0oV2bL9gDa-pKIOY", // Click 'View API Keys' above to copy your API secret
+});
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -43,18 +52,18 @@ export const google = async (req, res, next) => {
     if (user) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = user._doc;
+
       res
         .cookie("access_token", token, { httpOnly: true })
         .status(200)
-        .json(rest);
+        .json({ ...rest, _id: user._id }); // ✅ Return _id explicitly
     } else {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
         Math.random().toString(36).slice(-8);
       const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
 
-      // ☁ Upload Google profile photo to Cloudinary
-      const result = await cloudinary.v2.uploader.upload(req.body.photo, {
+      const result = await cloudinary.uploader.upload(req.body.photo, {
         folder: "avatars",
         public_id: `google-${Date.now()}`,
       });
@@ -65,17 +74,18 @@ export const google = async (req, res, next) => {
           Math.random().toString(36).slice(-4),
         email: req.body.email,
         password: hashedPassword,
-        avatar: result.secure_url, // use uploaded URL
+        avatar: result.secure_url,
       });
 
       await newUser.save();
 
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = newUser._doc;
+
       res
         .cookie("access_token", token, { httpOnly: true })
         .status(200)
-        .json(rest);
+        .json({ ...rest, _id: newUser._id }); // ✅ Also here
     }
   } catch (error) {
     next(error);

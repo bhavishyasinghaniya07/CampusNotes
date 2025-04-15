@@ -1,5 +1,5 @@
 import { errorHandler } from "../utils/error.js";
-import bcryptjs from "bcryptjs";
+import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import Note from "../models/uploading.model.js";
 
