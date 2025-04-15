@@ -193,6 +193,7 @@ import { IoMdDownload } from "react-icons/io";
 import { MdMoreVert } from "react-icons/md";
 import { FaRegCommentDots } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
+import { useSelector } from "react-redux";
 
 const api = axios.create({
   baseURL: "http://localhost:3000/api", // Backend API
@@ -347,6 +348,20 @@ const BrowseNotes = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const suggestionRef = useRef(null);
+  const [note, setNote] = useState(null);
+  const { currentUser } = useSelector((state) => state.user);
+
+  // const handleClick = () => {
+  //   if (currentUser) {
+  //     if (note) {
+  //       downloadFile(note.fileUrl, note.title);
+  //     } else {
+  //       console.error("No note selected");
+  //     }
+  //   } else {
+  //     navigate("/sign-in");
+  //   }
+  // };
 
   // Added filter states
   const [filters, setFilters] = useState({
@@ -771,7 +786,17 @@ const BrowseNotes = () => {
                         </button>
 
                         <button
-                          onClick={() => downloadFile(note.fileUrl, note.title)}
+                          onClick={() => {
+                            if (currentUser) {
+                              if (note) {
+                                downloadFile(note.fileUrl, note.title);
+                              } else {
+                                console.error("No note selected");
+                              }
+                            } else {
+                              navigate("/sign-in");
+                            }
+                          }}
                           className=" cursor-pointer flex items-center text-green-600 hover:text-green-700 transition-colors"
                         >
                           <span>

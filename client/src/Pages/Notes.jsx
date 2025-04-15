@@ -56,14 +56,6 @@ const Notes = () => {
           <div className="bg-indigo-50 p-4 rounded-lg mb-4 relative">
             {/* Make the container relative so the button positions inside it */}
             <p className="text-gray-700">{notes.description}</p>
-
-            {/* Share Button inside description */}
-            <button
-              onClick={handleShare}
-              className="cursor-pointer mt-4 bg-indigo-600 text-white px-3 py-1 text-sm rounded hover:bg-indigo-700 transition duration-200"
-            >
-              {copied ? "✅ Copied!" : "🔗 Share"}
-            </button>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm mb-6">
@@ -109,7 +101,7 @@ const Notes = () => {
           </div>
 
           {notes.fileUrl && (
-            <div className="mb-6">
+            <div className="mb-6 mx-auto flex gap-4 justify-end">
               <a
                 href={notes.fileUrl}
                 target="_blank"
@@ -118,6 +110,19 @@ const Notes = () => {
               >
                 📄 View or Download Notes
               </a>
+              {/* Share Button inside description */}
+              <button
+                onClick={handleShare}
+                className="cursor-pointer inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl transition duration-200"
+              >
+                {copied ? "✅ Copied!" : "🔗 Share Notes"}
+              </button>
+              <button
+                // onClick={}
+                className="cursor-pointer inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl transition duration-200"
+              >
+                Save Notes
+              </button>
             </div>
           )}
 
