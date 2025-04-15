@@ -5,11 +5,6 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const UpdateNotes = () => {
-  const { currentUser } = useSelector((state) => state.user);
-  const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [file, setFile] = useState(null);
-  const params = useParams();
   const courses = [
     // Engineering (B.Tech/B.E)
     "Computer Science Engineering (B.Tech/B.E)",
@@ -171,6 +166,12 @@ const UpdateNotes = () => {
     // Add MCA (Master of Computer Applications)
     "MCA (Master of Computer Applications)",
   ];
+  const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [file, setFile] = useState(null);
+  const params = useParams();
+
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -346,8 +347,8 @@ const UpdateNotes = () => {
           </label>
           <input
             type="file"
-            id="fileUrl"
-            name="fileUrl"
+            id="file"
+            name="file"
             onChange={handleFileChange}
             accept=".pdf,.doc,.docx,.txt"
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"

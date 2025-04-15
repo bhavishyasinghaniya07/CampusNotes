@@ -19,13 +19,13 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/notes/:notesId" element={<Notes />}></Route>
 
         <Route path="/sign-in" element={<Signin />}></Route>
         <Route path="/sign-up" element={<Signup />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/browse" element={<BrowseNotes />}></Route>
         <Route element={<PrivateRoute />}>
+          <Route path="/notes/:notesId" element={<Notes />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/uploading-notes" element={<UploadingNotes />}></Route>
           <Route

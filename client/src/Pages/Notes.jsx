@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { IoMdDownload } from "react-icons/io";
 
 const Notes = () => {
   const params = useParams();
@@ -59,7 +60,7 @@ const Notes = () => {
             {/* Share Button inside description */}
             <button
               onClick={handleShare}
-              className="mt-4 bg-indigo-600 text-white px-3 py-1 text-sm rounded hover:bg-indigo-700 transition duration-200"
+              className="cursor-pointer mt-4 bg-indigo-600 text-white px-3 py-1 text-sm rounded hover:bg-indigo-700 transition duration-200"
             >
               {copied ? "✅ Copied!" : "🔗 Share"}
             </button>
@@ -94,7 +95,7 @@ const Notes = () => {
 
           <div className="flex items-center gap-6 mb-6">
             <div className="text-sm text-gray-700">
-              👍{" "}
+              ❤{" "}
               <span className="font-semibold">{notes.likes?.length || 0}</span>{" "}
               Likes
             </div>

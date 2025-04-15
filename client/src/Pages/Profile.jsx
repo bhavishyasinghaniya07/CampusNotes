@@ -434,6 +434,9 @@ const Profile = () => {
           alt="profile"
           className="rounded-full h-28 w-28 object-cover cursor-pointer self-center border-4 border-blue-200 shadow-md"
         />
+        <p className="text-green-500 text-center">
+          Welcome {currentUser.username}
+        </p>
         <input
           type="text"
           placeholder="Username"
@@ -457,7 +460,7 @@ const Profile = () => {
           onChange={handleChange}
           className="border p-3 rounded-lg focus:outline-blue-400"
         />
-        <button className="bg-blue-600 text-white py-3 rounded-lg uppercase font-semibold hover:bg-blue-700 transition">
+        <button className="cursor-pointer bg-blue-600 text-white py-3 rounded-lg uppercase font-semibold hover:bg-blue-700 transition">
           Update Profile
         </button>
         <Link
@@ -471,13 +474,13 @@ const Profile = () => {
       <div className="flex justify-between mt-6 text-sm font-medium text-slate-600">
         <button
           onClick={handleDeleteUser}
-          className="text-red-600 hover:underline"
+          className="cursor-pointer text-red-600 hover:underline"
         >
           Delete Account
         </button>
         <button
           onClick={handleSignOut}
-          className="text-red-600 hover:underline"
+          className="cursor-pointer text-red-600 hover:underline"
         >
           Sign Out
         </button>
@@ -485,7 +488,7 @@ const Profile = () => {
 
       <button
         onClick={handleShowUploads}
-        className="text-green-600 mt-6 w-full font-semibold underline hover:text-green-800"
+        className="cursor-pointer text-green-600 mt-6 w-full font-semibold underline hover:text-green-800"
       >
         See Your Uploaded Notes
       </button>
@@ -502,7 +505,7 @@ const Profile = () => {
               key={upload._id}
               className="border rounded-lg p-4 shadow hover:shadow-md transition flex flex-col justify-between"
             >
-              <Link to={`/uploads/${upload._id}`}>
+              <Link to={`/notes/${upload._id}`}>
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
                   alt="Notes Icon"
@@ -510,7 +513,7 @@ const Profile = () => {
                 />
               </Link>
               <Link
-                to={`/uploads/${upload._id}`}
+                to={`/notes/${upload._id}`}
                 className="mt-3 text-center text-lg font-semibold text-slate-800 truncate hover:underline"
               >
                 {upload.title}
@@ -518,13 +521,13 @@ const Profile = () => {
               <div className="mt-4 flex justify-between">
                 <button
                   onClick={() => handleNotesDelete(upload._id)}
-                  className="text-sm text-red-600 font-bold uppercase hover:underline"
+                  className="cursor-pointer text-sm text-red-600 font-bold uppercase hover:underline"
                 >
                   Delete
                 </button>
                 <Link
                   to={`/update-notes/${upload._id}`}
-                  className="text-sm text-green-600 font-bold uppercase hover:underline"
+                  className="cursor-pointer text-sm text-green-600 font-bold uppercase hover:underline"
                 >
                   Edit
                 </Link>

@@ -7,7 +7,7 @@ const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
   return (
     <>
-      <header className="bg-slate-200 shadow-md">
+      <header className="bg-slate-200 shadow-md p-4 sticky top-0 z-10">
         <div className="flex justify-between items-center max-w-6xl mx-auto flex-wrap">
           <Link to="/">
             <h1 className="font-bold text-sm sm:text-xl flex-wrap">
@@ -15,7 +15,7 @@ const Header = () => {
               <span className="text-slate-700">Notes</span>
             </h1>
           </Link>
-          <form
+          {/* <form
             action=""
             className="bg-slate-100 p-3 rounded-lg flex items-center"
           >
@@ -25,7 +25,7 @@ const Header = () => {
               className="bg-transparent focus:outline-none w-24 sm:w-64"
             />
             <FaSearch className="text-slate-600" />
-          </form>
+          </form> */}
           <ul className="flex gap-4">
             <Link to="/">
               <li className="hidden sm:inline text-slate-700 hover:underline cursor-pointer">

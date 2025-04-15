@@ -25,7 +25,7 @@ const Home = () => {
         ></div>
         <div className="relative container mx-auto text-center px-4">
           <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-6">
-            📚 Share & Discover Academic Notes Easily!
+            Share & Discover Academic Notes Easily!
           </h1>
           <p className="text-lg sm:text-xl mb-8 max-w-2xl mx-auto">
             CampusNotes is your go-to platform to upload, download, and share
@@ -33,12 +33,12 @@ const Home = () => {
           </p>
           <div className="space-x-4">
             <Link to={"/uploading-notes"}>
-              <button className="bg-yellow-500 text-gray-800 py-3 px-6 rounded-lg hover:bg-yellow-600 transition">
+              <button className="cursor-pointer bg-yellow-500 text-gray-800 py-3 px-6 rounded-lg hover:bg-yellow-600 transition">
                 Upload Notes
               </button>
             </Link>
             <Link to={"/browse"}>
-              <button className="bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-gray-800 transition">
+              <button className="cursor-pointer bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-gray-800 transition">
                 Browse Notes
               </button>
             </Link>
@@ -81,32 +81,36 @@ const Home = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           <div className="bg-white text-gray-800 rounded-lg shadow-lg p-6">
-            <h3 className="text-xl font-semibold">Verified Quality Notes</h3>
+            <h3 className="text-xl font-semibold mb-1">
+              Verified Quality Notes
+            </h3>
             <p>
               All notes are verified by our team for authenticity and quality.
             </p>
           </div>
           <div className="bg-white text-gray-800 rounded-lg shadow-lg p-6">
-            <h3 className="text-xl font-semibold">Free Downloads</h3>
+            <h3 className="text-xl font-semibold mb-1">Free Downloads</h3>
             <p>
               All notes are available for free, just download and start
               studying.
             </p>
           </div>
           <div className="bg-white text-gray-800 rounded-lg shadow-lg p-6">
-            <h3 className="text-xl font-semibold">Peer Reviews</h3>
+            <h3 className="text-xl font-semibold mb-1">Peer Reviews</h3>
             <p>Notes can be liked and reviewed by peers to ensure quality.</p>
           </div>
           <div className="bg-white text-gray-800 rounded-lg shadow-lg p-6">
-            <h3 className="text-xl font-semibold">Admin Approval</h3>
+            <h3 className="text-xl font-semibold mb-1">Admin Approval</h3>
             <p>Admin ensures that every note meets our quality standards.</p>
           </div>
           <div className="bg-white text-gray-800 rounded-lg shadow-lg p-6">
-            <h3 className="text-xl font-semibold">User Interactions</h3>
+            <h3 className="text-xl font-semibold mb-1">User Interactions</h3>
             <p>Engage with other students through comments and likes.</p>
           </div>
           <div className="bg-white text-gray-800 rounded-lg shadow-lg p-6">
-            <h3 className="text-xl font-semibold">Collaborative Learning</h3>
+            <h3 className="text-xl font-semibold mb-1">
+              Collaborative Learning
+            </h3>
             <p>Join a community of learners by sharing feedback.</p>
           </div>
         </div>

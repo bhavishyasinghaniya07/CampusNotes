@@ -5,13 +5,13 @@ const About = () => {
     <div className="bg-gradient-to-b from-blue-50 to-white py-14 px-6 md:px-16 font-sans">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-5xl font-extrabold text-center text-blue-700 mb-16 tracking-wide">
-          🌟 About CampusNotes
+          About CampusNotes
         </h1>
 
         {/* What is CampusNotes */}
         <section className="mb-16 bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl transition duration-300">
           <h2 className="text-3xl font-bold text-blue-600 mb-4">
-            📘 What is CampusNotes?
+            What is CampusNotes?
           </h2>
           <p className="text-gray-700 text-lg leading-relaxed">
             <strong>CampusNotes</strong> is a student-powered platform where
@@ -24,9 +24,7 @@ const About = () => {
 
         {/* Our Mission */}
         <section className="mb-16 bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl">
-          <h2 className="text-3xl font-bold text-blue-600 mb-4">
-            🎯 Our Mission
-          </h2>
+          <h2 className="text-3xl font-bold text-blue-600 mb-4">Our Mission</h2>
           <p className="text-gray-700 text-lg leading-relaxed">
             To make academic resources universally accessible by fostering a
             culture of sharing and learning among students across all colleges.
@@ -36,7 +34,7 @@ const About = () => {
         {/* Who is it for */}
         <section className="mb-16 bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl">
           <h2 className="text-3xl font-bold text-blue-600 mb-4">
-            👥 Who is it for?
+            Who is it for?
           </h2>
           <ul className="list-disc pl-6 text-gray-700 text-lg space-y-2">
             <li>College students across all years and streams</li>
@@ -48,20 +46,20 @@ const About = () => {
 
         {/* Features */}
         <section className="mb-16 bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl">
-          <h2 className="text-3xl font-bold text-blue-600 mb-4">🚀 Features</h2>
+          <h2 className="text-3xl font-bold text-blue-600 mb-4"> Features</h2>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 text-lg">
-            <li>✅ Upload and download academic notes</li>
-            <li>✅ Filter by college, course, semester, and subject</li>
-            <li>✅ Like, comment, and interact with other users</li>
-            <li>✅ Admin approval for quality assurance</li>
-            <li>✅ Simple, distraction-free UI</li>
+            <li> Upload and download academic notes</li>
+            <li> Filter by college, course, semester, and subject</li>
+            <li> Like, comment, and interact with other users</li>
+            <li> Admin approval for quality assurance</li>
+            <li> Simple, distraction-free UI</li>
           </ul>
         </section>
 
         {/* Why Choose Us */}
         <section className="mb-16 bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl">
           <h2 className="text-3xl font-bold text-blue-600 mb-4">
-            🌟 Why Choose Us?
+            Why Choose Us?
           </h2>
           <ul className="list-disc pl-6 text-gray-700 text-lg space-y-2">
             <li>Free, fast, and easy-to-use</li>
@@ -74,7 +72,7 @@ const About = () => {
         {/* Stats Section */}
         <section className="mb-16 text-center">
           <h2 className="text-3xl font-bold text-blue-600 mb-8">
-            📊 Platform Stats
+            Platform Stats
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="bg-blue-100 p-6 rounded-2xl shadow-md">
@@ -91,7 +89,7 @@ const About = () => {
         {/* Team Section */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-blue-600 mb-8 text-center">
-            👩‍💻 Meet the Team
+            Meet the Team
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
             <div className="bg-white p-6 rounded-3xl shadow-lg flex flex-col items-center text-center">
@@ -118,7 +116,7 @@ const About = () => {
         {/* Connect With Us */}
         <section className="bg-gradient-to-r from-blue-100 to-blue-200 p-8 rounded-3xl shadow-md">
           <h2 className="text-3xl font-bold text-blue-700 mb-4">
-            📬 Connect With Us
+            Connect With Us
           </h2>
           <p className="text-gray-800 text-lg mb-2">
             Have questions, feedback, or just want to say hi?
@@ -129,7 +127,7 @@ const About = () => {
               href="mailto:campusnotes@edu.com"
               className="text-blue-700 font-semibold underline"
             >
-              campusnotes@edu.com
+              campusnotes@email.com
             </a>
           </p>
         </section>

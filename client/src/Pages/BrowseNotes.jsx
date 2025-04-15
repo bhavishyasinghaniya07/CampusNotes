@@ -188,6 +188,11 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import { IoMdDownload } from "react-icons/io";
+import { MdMoreVert } from "react-icons/md";
+import { FaRegCommentDots } from "react-icons/fa6";
+import { CgProfile } from "react-icons/cg";
 
 const api = axios.create({
   baseURL: "http://localhost:3000/api", // Backend API
@@ -266,7 +271,7 @@ const AutocompleteDropdown = ({
         <input
           type="text"
           className="border w-full p-2 pr-10 rounded-md bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          placeholder={`placeholder || Search ${label.toLowerCase()}...`}
+          placeholder={placeholder}
           value={inputValue}
           onChange={handleInputChange}
           onFocus={() => setIsOpen(true)}
@@ -333,6 +338,7 @@ const AutocompleteDropdown = ({
 };
 
 const BrowseNotes = () => {
+  const navigate = useNavigate();
   const [notes, setNotes] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedNote, setSelectedNote] = useState(null);
@@ -567,7 +573,7 @@ const BrowseNotes = () => {
       <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
         <div className="bg-blue-600 p-4 text-white">
           <h1 className="text-3xl font-bold text-center">
-            📚 Shared Notes Platform
+            Explore Shared Notes
           </h1>
         </div>
 
@@ -617,11 +623,11 @@ const BrowseNotes = () => {
             )}
           </div>
 
-          {/* 🏷 Filters with Autocomplete */}
+          {/*  Filters with Autocomplete */}
           <div className="mb-6">
-            <h2 className="font-medium text-lg mb-2 text-gray-700">
+            {/* <h2 className="font-medium text-lg mb-2 text-gray-700">
               Filter Notes
-            </h2>
+            </h2> */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {/* Subject Filter */}
               <AutocompleteDropdown
@@ -629,7 +635,7 @@ const BrowseNotes = () => {
                 value={filters.subject}
                 onChange={(value) => handleFilterChange("subject", value)}
                 options={filterOptions.subjects}
-                placeholder="Search or select subject..."
+                placeholder="eg. Operating Systems"
               />
 
               {/* Course Filter */}
@@ -638,7 +644,7 @@ const BrowseNotes = () => {
                 value={filters.course}
                 onChange={(value) => handleFilterChange("course", value)}
                 options={filterOptions.courses}
-                placeholder="Search or select course..."
+                placeholder="eg. B.Tech CSE"
               />
 
               {/* Semester Filter */}
@@ -647,7 +653,7 @@ const BrowseNotes = () => {
                 value={filters.semester}
                 onChange={(value) => handleFilterChange("semester", value)}
                 options={filterOptions.semesters}
-                placeholder="Search or select semester..."
+                placeholder="eg. 3"
               />
 
               {/* College Filter */}
@@ -656,7 +662,7 @@ const BrowseNotes = () => {
                 value={filters.college}
                 onChange={(value) => handleFilterChange("college", value)}
                 options={filterOptions.colleges}
-                placeholder="Search or select college..."
+                placeholder="eg. MANIT Bhopal"
               />
             </div>
 
@@ -664,7 +670,7 @@ const BrowseNotes = () => {
             <div className="mt-4 flex justify-end">
               <button
                 onClick={resetFilters}
-                className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-150 flex items-center"
+                className="cursor-pointer bg-gray-200 text-gray-800 px-4 py-1 rounded-md hover:bg-gray-300 transition duration-150 flex items-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -692,10 +698,10 @@ const BrowseNotes = () => {
             </div>
           )}
 
-          {/* 📄 Notes List */}
+          {/* Notes List */}
           {!selectedNote && !isLoading ? (
             notes.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 cursor-pointer">
                 {notes.map((note) => (
                   <div
                     key={note._id}
@@ -711,7 +717,7 @@ const BrowseNotes = () => {
 
                       <div className="space-y-1 text-xs text-gray-500 mb-4">
                         <div className="flex items-center">
-                          <span className="mr-1">📚</span>
+                          <span className="mr-1"></span>
                           <span className="font-medium">Subject:</span>
                           <span className="ml-1">
                             {note.subjectName || "N/A"}
@@ -719,7 +725,7 @@ const BrowseNotes = () => {
                         </div>
 
                         <div className="flex items-center">
-                          <span className="mr-1">📘</span>
+                          <span className="mr-1"></span>
                           <span className="font-medium">Course:</span>
                           <span className="ml-1">
                             {note.courseName || "N/A"}
@@ -727,7 +733,7 @@ const BrowseNotes = () => {
                         </div>
 
                         <div className="flex items-center">
-                          <span className="mr-1">🎓</span>
+                          <span className="mr-1"></span>
                           <span className="font-medium">College:</span>
                           <span className="ml-1">
                             {note.collegeName || "N/A"}
@@ -735,7 +741,7 @@ const BrowseNotes = () => {
                         </div>
 
                         <div className="flex items-center">
-                          <span className="mr-1">📅</span>
+                          <span className="mr-1"></span>
                           <span className="font-medium">Semester:</span>
                           <span className="ml-1">{note.semester || "N/A"}</span>
                         </div>
@@ -744,7 +750,7 @@ const BrowseNotes = () => {
                       <div className="flex justify-between items-center pt-3 border-t">
                         <button
                           onClick={() => likeNote(note._id)}
-                          className="flex items-center text-red-600 hover:text-red-700 transition-colors"
+                          className="cursor-pointer flex items-center text-red-600 hover:text-red-700 transition-colors"
                         >
                           <span>❤</span>
                           <span className="ml-1">
@@ -754,9 +760,11 @@ const BrowseNotes = () => {
 
                         <button
                           onClick={() => openComments(note)}
-                          className="flex items-center text-blue-600 hover:text-blue-700 transition-colors"
+                          className="cursor-pointer flex items-center text-blue-600 hover:text-blue-700 transition-colors"
                         >
-                          <span>💬</span>
+                          <span>
+                            <FaRegCommentDots />
+                          </span>
                           <span className="ml-1">
                             {note.comments?.length || 0}
                           </span>
@@ -764,10 +772,23 @@ const BrowseNotes = () => {
 
                         <button
                           onClick={() => downloadFile(note.fileUrl, note.title)}
-                          className="flex items-center text-green-600 hover:text-green-700 transition-colors"
+                          className=" cursor-pointer flex items-center text-green-600 hover:text-green-700 transition-colors"
                         >
-                          <span>⬇</span>
+                          <span>
+                            <IoMdDownload />
+                          </span>
                           <span className="ml-1">Download</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            navigate(`/notes/${note._id}`);
+                          }}
+                          className="cursor-pointer flex items-center text-green-600 hover:text-green-700 transition-colors"
+                        >
+                          <span>
+                            <MdMoreVert />
+                          </span>
+                          <span className="ml-1">Detail</span>
                         </button>
                       </div>
                     </div>
@@ -800,13 +821,13 @@ const BrowseNotes = () => {
             )
           ) : null}
 
-          {/* 💬 Comment Section */}
+          {/* Comment Section */}
           {selectedNote && (
             <div className="bg-white border rounded-lg overflow-hidden shadow-md">
               <div className="p-6">
                 <button
                   onClick={() => setSelectedNote(null)}
-                  className="mb-4 flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+                  className="cursor-pointer mb-4 flex items-center text-blue-600 hover:text-blue-800 transition-colors"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -924,7 +945,14 @@ const BrowseNotes = () => {
 
                   {selectedNote.comments.map((c, idx) => (
                     <div key={idx} className="border-b py-3 last:border-b-0">
-                      <p className="text-gray-800">{c.text}</p>
+                      {console.log(c)}
+                      <h2 className="text-green-600">
+                        <span>
+                          <CgProfile />
+                        </span>
+                        User_{c._id.slice(0, 4)}
+                      </h2>
+                      <p className="text-gray-800 mt-1">{c.text}</p>
                       <div className="flex items-center mt-1 text-xs text-gray-500">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
