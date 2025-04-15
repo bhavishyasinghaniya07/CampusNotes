@@ -67,7 +67,7 @@ const Signin = () => {
         />
         <button
           disabled={loading}
-          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+          className="cursor-pointer bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
           {loading ? "Signing In..." : "Sign In"}
         </button>
@@ -75,8 +75,10 @@ const Signin = () => {
       </form>
 
       <div className="flex gap-2 mt-5">
-        <p>Do not have an account</p>
-        <Link to={"/sign-up"}>Sign Up</Link>
+        <p>Don't have an account</p>
+        <Link to={"/sign-up"} className="text-green-500">
+          Sign Up
+        </Link>
       </div>
       {error && <p className="text-red-500 mt-5"> {error}</p>}
     </div>
