@@ -64,7 +64,6 @@ export const getUserUploads = async (req, res, next) => {
       next(error);
     }
   } else {
-    console.log("Hii I am Here");
     return next(errorHandler(401, "You can only view your own Uploads"));
   }
 };

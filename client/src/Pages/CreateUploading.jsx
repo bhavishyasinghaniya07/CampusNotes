@@ -193,7 +193,6 @@ const CreateUploading = () => {
     setFormData((prev) => ({ ...prev, courseName: course }));
   };
 
-  console.log(formData);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setSearchTerm(e.target.value);

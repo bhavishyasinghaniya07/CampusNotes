@@ -38,14 +38,18 @@ const Signin = () => {
         dispatch(signInFailure(data.message));
         return;
       }
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        console.log("Token saved to localStorage:", data.token);
+      }
+
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
       dispatch(signInFailure(error.message));
     }
   };
-
-  console.log(formData);
 
   return (
     <div className="p-3 max-w-lg mx-auto">

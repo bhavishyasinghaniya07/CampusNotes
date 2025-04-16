@@ -19,12 +19,33 @@ const Notes = () => {
       console.error("Failed to copy URL:", err);
     }
   };
+
+  const handleArchives = async (noteId) => {
+    try {
+      const res = await fetch(`/api/notes/archive/${noteId}`, {
+        method: "POST",
+        credentials: "include", // this ensures cookies (like access_token) are sent
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        alert("Note archived successfully ✅");
+      } else {
+        alert(data.message || "Failed to archive the note ❌");
+      }
+    } catch (error) {
+      console.error("Error archiving note:", error);
+      alert("Something went wrong while archiving 🚨");
+    }
+  };
+
   useEffect(() => {
     const fetchNotes = async () => {
       try {
         const res = await fetch(`/api/uploading/get/${params.notesId}`);
         const data = await res.json();
-        console.log(data);
+
         if (data.success === false) {
           setError(true);
           setLoading(false);
@@ -118,10 +139,10 @@ const Notes = () => {
                 {copied ? "✅ Copied!" : "🔗 Share Notes"}
               </button>
               <button
-                // onClick={}
+                onClick={() => handleArchives(notes._id)}
                 className="cursor-pointer inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl transition duration-200"
               >
-                Save Notes
+                Archive Notes
               </button>
             </div>
           )}

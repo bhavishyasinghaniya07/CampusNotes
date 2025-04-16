@@ -36,8 +36,6 @@ const upload = multer({ storage });
 
 // 🚀 Upload route with file handling
 router.post("/upload", verifyToken, upload.single("file"), notesUploading);
-console.log("Upload route hit");
-console.log("Upload request received");
 router.delete("/delete/:id", verifyToken, deleteNotes);
 router.post("/update/:id", verifyToken, updateNotes);
 router.get("/get/:id", getNotes);
