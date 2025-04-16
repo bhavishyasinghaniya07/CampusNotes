@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +6,7 @@ const CreateUploading = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState("");
   const [file, setFile] = useState(null);
+  const [showCourseDropdown, setShowCourseDropdown] = useState(false);
   const navigate = useNavigate();
 
   const courses = [
@@ -181,8 +181,8 @@ const CreateUploading = () => {
     batch: "",
     subjectName: "",
     semester: "",
-    fileUrl: "", // Store the file URL once uploaded
-    uploader: currentUser._id, // Store the uploader ID (or name)
+    fileUrl: "",
+    uploader: currentUser._id,
   });
 
   const filteredCourses = courses.filter((course) =>
@@ -191,11 +191,15 @@ const CreateUploading = () => {
 
   const handleCourseSelect = (course) => {
     setFormData((prev) => ({ ...prev, courseName: course }));
+    setShowCourseDropdown(false);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSearchTerm(e.target.value);
+    if (name === "courseName") {
+      setSearchTerm(value);
+      setShowCourseDropdown(true);
+    }
     setFormData({
       ...formData,
       [name]: value,
@@ -203,7 +207,7 @@ const CreateUploading = () => {
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]); // Store the selected file in state
+    setFile(e.target.files[0]);
   };
 
   const handleUrlChange = (e) => {
@@ -220,18 +224,17 @@ const CreateUploading = () => {
 
     try {
       setLoading(true);
-      setError(null); // Reset error state before making the request
+      setError(null);
 
       const form = new FormData();
 
       if (file) {
-        form.append("file", file, file.name); // Append the file if it exists
+        form.append("file", file, file.name);
       } else {
-        form.append("fileUrl", formData.fileUrl); // Append the URL if no file
-        form.append("fileName", formData.fileName || "File from URL"); // Optional filename
+        form.append("fileUrl", formData.fileUrl);
+        form.append("fileName", formData.fileName || "File from URL");
       }
 
-      // Append other form data fields to FormData
       for (const key in formData) {
         if (key !== "fileUrl" && key !== "fileName") {
           form.append(key, formData[key]);
@@ -259,231 +262,424 @@ const CreateUploading = () => {
       navigate(`/profile`);
     } catch (err) {
       setError(`Error: ${err.message}`);
-      setLoading(false); // Ensure loading is set to false in case of failure
+      setLoading(false);
     }
   };
 
   return (
-    <main>
-      <form
-        action="/upload"
-        method="POST"
-        encType="multipart/form-data"
-        onSubmit={handleSubmit}
-        className="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-10 mt-10 space-y-6"
-      >
-        <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800">
-          📄 Upload Your Notes
-        </h2>
-
-        {/* Title */}
-        <div>
-          <label
-            htmlFor="title"
-            className="block mb-2 text-gray-700 font-semibold"
-          >
-            Title
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            placeholder="e.g. Data Structures Notes"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            required
-            onChange={handleChange}
-            value={formData.title}
-          />
-        </div>
-
-        {/* Description */}
-        <div>
-          <label
-            htmlFor="description"
-            className="block mb-2 text-gray-700 font-semibold"
-          >
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            placeholder="Short summary..."
-            className="w-full p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500"
-            rows="3"
-            onChange={handleChange}
-            value={formData.description}
-          ></textarea>
-        </div>
-
-        {/* File URL */}
-        <div>
-          <label
-            htmlFor="file"
-            className="block mb-2 text-gray-700 font-semibold"
-          >
-            Upload File (PDF, DOC, etc.)
-          </label>
-          <input
-            type="file"
-            id="fileUrl"
-            name="fileUrl"
-            onChange={handleFileChange}
-            accept=".pdf,.doc,.docx,.txt"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            required
-          />
-          {file && (
-            <p className="text-sm text-gray-600 mt-2">
-              Selected file: {file.name}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12 px-4 sm:px-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+          {/* Header Section */}
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-8 sm:px-10">
+            <h1 className="text-3xl sm:text-4xl font-bold text-white flex items-center">
+              <span className="mr-3">📚</span>
+              <span>Share Your Knowledge</span>
+            </h1>
+            <p className="text-blue-100 mt-2">
+              Upload your notes and help fellow students excel in their studies
             </p>
-          )}{" "}
-        </div>
-
-        {/* College Name */}
-        <div>
-          <label
-            htmlFor="collegeName"
-            className="block mb-2 text-gray-700 font-semibold"
-          >
-            College Name
-          </label>
-          <input
-            type="text"
-            id="collegeName"
-            name="collegeName"
-            placeholder="e.g. XYZ University"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            required
-            onChange={handleChange}
-            value={formData.collegeName}
-          />
-        </div>
-
-        {/* Searchable Course */}
-        <div>
-          <label
-            htmlFor="courseName"
-            className="block mb-2 text-gray-700 font-semibold"
-          >
-            Course
-          </label>
-          <input
-            type="text"
-            id="courseName"
-            name="courseName"
-            placeholder="Search for Course"
-            // value={searchTerm}
-            onChange={handleChange}
-            value={formData.courseName}
-            // onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-          />
-          {/* Display Filtered Course Options */}
-          <div className="max-h-40 overflow-y-auto mt-2 bg-white border border-gray-300 rounded-lg shadow-lg">
-            {filteredCourses.map((course, index) => (
-              <div
-                key={index}
-                // onClick={() => setSearchTerm(course)}
-                onClick={() => {
-                  handleCourseSelect(course);
-                }}
-                className="p-3 hover:bg-gray-100 cursor-pointer"
-              >
-                {course}
-              </div>
-            ))}
           </div>
-        </div>
 
-        {/* Batch */}
-        <div>
-          <label
-            htmlFor="batch"
-            className="block mb-2 text-gray-700 font-semibold"
-          >
-            Batch
-          </label>
-          <select
-            id="batch"
-            name="batch"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            required
-            onChange={handleChange}
-            value={formData.batch}
-          >
-            <option value="">Select Batch</option>
-            <option value="2020-2024">2020-2024</option>
-            <option value="2021-2025">2021-2025</option>
-            <option value="2022-2026">2022-2026</option>
-            <option value="2023-2027">2023-2027</option>
-          </select>
-        </div>
+          {/* Form Section */}
+          <form onSubmit={handleSubmit} className="p-6 sm:p-10 space-y-6">
+            <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-6">
+              <h2 className="text-lg font-medium text-blue-800 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Document Information
+              </h2>
+            </div>
 
-        {/* Semester */}
-        <div>
-          <label className="block mb-2 text-gray-700 font-semibold">
-            Semester
-          </label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
-              <label
-                key={sem}
-                className="flex items-center gap-2 text-gray-600 text-sm"
-              >
+            {/* Two Column Layout for Basic Info */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Title */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Document Title <span className="text-red-500">*</span>
+                </label>
                 <input
-                  id="semester"
-                  type="radio"
-                  name="semester"
-                  value={sem}
+                  type="text"
+                  id="title"
+                  name="title"
+                  placeholder="e.g. Data Structures Notes"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                   required
                   onChange={handleChange}
-                  checked={parseInt(formData.semester) === sem}
+                  value={formData.title}
                 />
-                Sem {sem}
+              </div>
+
+              {/* Subject Name */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="subjectName"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Subject Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="subjectName"
+                  name="subjectName"
+                  placeholder="e.g. DBMS"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                  required
+                  onChange={handleChange}
+                  value={formData.subjectName}
+                />
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="space-y-2">
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Description
               </label>
-            ))}
+              <textarea
+                id="description"
+                name="description"
+                placeholder="Provide a brief summary of what these notes cover..."
+                className="w-full p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                rows="4"
+                onChange={handleChange}
+                value={formData.description}
+              ></textarea>
+            </div>
+
+            <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 mt-8 mb-6">
+              <h2 className="text-lg font-medium text-blue-800 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+                </svg>
+                Academic Details
+              </h2>
+            </div>
+
+            {/* Three Column Layout for Academic Info */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* College Name */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="collegeName"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  College/University <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="collegeName"
+                  name="collegeName"
+                  placeholder="e.g. XYZ University"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                  required
+                  onChange={handleChange}
+                  value={formData.collegeName}
+                />
+              </div>
+
+              {/* Batch */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="batch"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Batch <span className="text-red-500">*</span>
+                </label>
+                <select
+                  id="batch"
+                  name="batch"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition appearance-none bg-white"
+                  required
+                  onChange={handleChange}
+                  value={formData.batch}
+                >
+                  <option value="">Select Batch</option>
+                  <option value="2020-2024">2020-2024</option>
+                  <option value="2021-2025">2021-2025</option>
+                  <option value="2022-2026">2022-2026</option>
+                  <option value="2023-2027">2023-2027</option>
+                </select>
+              </div>
+
+              {/* Semester */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Semester <span className="text-red-500">*</span>
+                </label>
+                <div className="grid grid-cols-4 gap-2">
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                    <label
+                      key={sem}
+                      className={`flex items-center justify-center p-2 rounded-lg border ${
+                        parseInt(formData.semester) === sem
+                          ? "bg-blue-100 border-blue-500 text-blue-700 font-medium"
+                          : "border-gray-300 hover:bg-gray-50 text-gray-700"
+                      } cursor-pointer transition-all`}
+                    >
+                      <input
+                        type="radio"
+                        name="semester"
+                        value={sem}
+                        onChange={handleChange}
+                        checked={parseInt(formData.semester) === sem}
+                        className="sr-only"
+                        required
+                      />
+                      Sem {sem}
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Course Selection */}
+            <div className="space-y-2 relative">
+              <label
+                htmlFor="courseName"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Course <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="courseName"
+                name="courseName"
+                placeholder="Search for your course..."
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                onChange={handleChange}
+                value={formData.courseName}
+                onFocus={() => setShowCourseDropdown(true)}
+                required
+              />
+
+              {/* Course Dropdown */}
+              {showCourseDropdown && filteredCourses.length > 0 && (
+                <div className="absolute z-10 w-full mt-1 max-h-60 overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg">
+                  {filteredCourses.map((course, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleCourseSelect(course)}
+                      className="p-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0 transition"
+                    >
+                      {course}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 mt-8 mb-6">
+              <h2 className="text-lg font-medium text-blue-800 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                File Upload
+              </h2>
+            </div>
+
+            {/* File Upload */}
+            <div className="space-y-2">
+              <label
+                htmlFor="fileUrl"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Upload Document (PDF, DOC, etc.){" "}
+                <span className="text-red-500">*</span>
+              </label>
+              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 transition-colors">
+                <div className="space-y-4 text-center">
+                  <svg
+                    className="mx-auto h-12 w-12 text-gray-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <div className="flex text-sm text-gray-600">
+                    <label
+                      htmlFor="fileUrl"
+                      className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none"
+                    >
+                      <span>Upload a file</span>
+                      <input
+                        id="fileUrl"
+                        name="fileUrl"
+                        type="file"
+                        onChange={handleFileChange}
+                        accept=".pdf,.doc,.docx,.txt"
+                        className="sr-only"
+                        required
+                      />
+                    </label>
+                    <p className="pl-1">or drag and drop</p>
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    PDF, DOC, DOCX up to 10MB
+                  </p>
+                  {file && (
+                    <div className="mt-2 text-sm text-blue-600 bg-blue-50 p-2 rounded-lg border border-blue-100">
+                      Selected: {file.name}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Confirmation Checkbox */}
+            <div className="flex items-start space-x-3 pt-4">
+              <input
+                type="checkbox"
+                id="confirm"
+                required
+                className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mt-1"
+              />
+              <label htmlFor="confirm" className="block text-sm text-gray-700">
+                I confirm this is original content and I have permission to
+                share it. I understand it will be available to help other
+                students.
+              </label>
+            </div>
+
+            {/* Error Message */}
+            {error && (
+              <div className="bg-red-50 border-l-4 border-red-500 p-4">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <svg
+                      className="h-5 w-5 text-red-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-sm text-red-700">{error}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Submit Button */}
+            <div className="pt-4">
+              <button
+                type="submit"
+                disabled={loading}
+                className={`w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-lg shadow-md text-lg font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all ${
+                  loading ? "opacity-70 cursor-not-allowed" : ""
+                }`}
+              >
+                {loading ? (
+                  <>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Uploading...
+                  </>
+                ) : (
+                  <>
+                    <span className="mr-2">📤</span> Share Your Notes
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* Additional info card */}
+        <div className="mt-8 bg-white p-6 rounded-xl shadow-lg">
+          <h3 className="text-lg font-medium text-gray-900">
+            Why share your notes?
+          </h3>
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <div className="text-xl mb-2">🎓</div>
+              <h4 className="font-medium">Help Others Learn</h4>
+              <p className="text-sm text-gray-600 mt-1">
+                Your notes could be exactly what someone needs to understand a
+                difficult concept.
+              </p>
+            </div>
+            <div className="bg-indigo-50 p-4 rounded-lg">
+              <div className="text-xl mb-2">🌟</div>
+              <h4 className="font-medium">Build Your Reputation</h4>
+              <p className="text-sm text-gray-600 mt-1">
+                Earn recognition as a valuable contributor to the academic
+                community.
+              </p>
+            </div>
+            <div className="bg-purple-50 p-4 rounded-lg">
+              <div className="text-xl mb-2">🔄</div>
+              <h4 className="font-medium">Give and Receive</h4>
+              <p className="text-sm text-gray-600 mt-1">
+                Sharing creates a culture where everyone benefits from
+                collective knowledge.
+              </p>
+            </div>
           </div>
         </div>
-
-        {/* Subject Name */}
-        <div>
-          <label
-            htmlFor="subjectName"
-            className="block mb-2 text-gray-700 font-semibold"
-          >
-            Subject Name
-          </label>
-          <input
-            type="text"
-            id="subjectName"
-            name="subjectName"
-            placeholder="e.g. DBMS"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            required
-            onChange={handleChange}
-            value={formData.subjectName}
-          />
-        </div>
-
-        {/* Confirmation
-        <div className="flex items-start gap-3">
-          <input type="checkbox" id="confirm" required className="mt-1" />
-          <label htmlFor="confirm" className="text-sm text-gray-700">
-            I confirm this is original content and I have permission to share
-            it.
-          </label>
-        </div> */}
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300"
-        >
-          {loading ? "Uploading..." : "Upload Notes"}
-        </button>
-        {error && <p className="text-rd-700 text-sm">{error}</p>}
-      </form>
-    </main>
+      </div>
+    </div>
   );
 };
 

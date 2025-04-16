@@ -8,6 +8,7 @@ export const verifyToken = (req, res, next) => {
     if (req.cookies && req.cookies.access_token) {
       token = req.cookies.access_token;
     }
+
     // Check token from Authorization header
     else if (
       req.headers.authorization &&
