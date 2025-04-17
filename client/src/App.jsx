@@ -12,6 +12,7 @@ import UploadingNotes from "./Pages/CreateUploading.jsx";
 import UpdateNotes from "./Pages/UpdateNotes.jsx";
 import Notes from "./Pages/Notes.jsx";
 import BrowseNotes from "./Pages/BrowseNotes.jsx";
+import Footer from "./components/Footer.jsx";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           ></Route>
         </Route>
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 };

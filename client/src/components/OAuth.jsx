@@ -38,7 +38,7 @@ const OAuth = () => {
     <button
       onClick={handeleGoogleClick}
       type="button"
-      className="cursor-pointer bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95"
+      className=" cursor-pointer w-full bg-indigo-900 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
     >
       Continue with Google
     </button>

@@ -69,7 +69,7 @@ const Header = () => {
                     {currentUser.name || "Profile"}
                   </span>
                   <img
-                    className="rounded-full h-8 w-8 object-cover border-2 border-blue-500"
+                    className="rounded-full h-8 w-8 object-cover "
                     src={currentUser.avatar}
                     alt="profile"
                   />
