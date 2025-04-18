@@ -402,6 +402,13 @@ const Notes = () => {
                   </span>
                 </div>
               )}
+              {!notes.approved && (
+                <div className="mt-4 bg-blue-50 p-3 rounded-xl flex items-center justify-center">
+                  <span className="yellow-blue-700 text-sm font-medium">
+                    Pending Approval
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Details card */}
