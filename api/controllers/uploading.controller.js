@@ -13,16 +13,13 @@ export const notesUploading = async (req, res, next) => {
 
     // Check if a file has been uploaded
     if (req.file) {
-      fileUrl = req.file.path || req.file.secure_url; // ✅ CORRECT
+      fileUrl = req.file.path || req.file.secure_url;
       fileName = req.file.originalname;
       fileType = req.file.mimetype;
-    }
-
-    // If no file uploaded, but a file URL is provided in the body
-    else if (req.body.fileUrl) {
-      fileUrl = req.file.path || req.file.secure_url;
+    } else if (req.body.fileUrl) {
+      fileUrl = req.body.fileUrl;
       fileName = req.body.fileName || "Unnamed from URL";
-      fileType = "url"; // You can handle this as a special case
+      fileType = "url";
     } else {
       return res.status(400).json({ message: "No file or file URL provided" });
     }
