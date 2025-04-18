@@ -5,17 +5,25 @@ import jwt from "jsonwebtoken";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import { v2 as cloudinary } from "cloudinary";
 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
 // 🔧 Cloudinary Config
 cloudinary.config({
-  cloud_name: "dinn2svqr",
-  api_key: "477623572645727",
-  api_secret: "58Bj2smsT6A0oV2bL9gDa-pKIOY", // Click 'View API Keys' above to copy your API secret
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
   const hashsedPassword = bcryptjs.hashSync(password, 10);
-  const newUser = new User({ username, email, password: hashsedPassword });
+  const newUser = new User({
+    username,
+    email,
+    password: hashsedPassword,
+    role: "user",
+  });
 
   try {
     await newUser.save();
@@ -24,9 +32,6 @@ export const signup = async (req, res, next) => {
     next(error);
   }
 };
-
-const ADMIN_EMAIL = "admin@example.com";
-const ADMIN_PASSWORD = "admin123";
 
 // export const signin = async (req, res, next) => {
 //   const { email, password } = req.body;
@@ -73,10 +78,12 @@ export const signin = async (req, res, next) => {
         .json({
           success: true,
           message: "Successfully signed in as admin",
-          _id: "admin",
-          username: "Admin",
-          email: ADMIN_EMAIL,
-          role: "admin",
+          user: {
+            _id: "admin",
+            username: "Admin",
+            email: ADMIN_EMAIL,
+            role: "admin",
+          },
           tokenExpiration: "1h",
         });
     }
