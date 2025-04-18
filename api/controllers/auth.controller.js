@@ -5,8 +5,11 @@ import jwt from "jsonwebtoken";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import { v2 as cloudinary } from "cloudinary";
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+// const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+// const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
+const ADMIN_EMAIL = "admin@example.com";
+const ADMIN_PASSWORD = "admin123";
 
 // 🔧 Cloudinary Config
 cloudinary.config({
@@ -59,6 +62,14 @@ export const signin = async (req, res, next) => {
 
   try {
     // Admin login
+    console.log(
+      "Admin credentials:",
+      ADMIN_EMAIL,
+      email,
+      ADMIN_PASSWORD,
+      password
+    );
+
     if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
       const token = jwt.sign(
         { id: "admin", role: "admin" },
@@ -78,12 +89,10 @@ export const signin = async (req, res, next) => {
         .json({
           success: true,
           message: "Successfully signed in as admin",
-          user: {
-            _id: "admin",
-            username: "Admin",
-            email: ADMIN_EMAIL,
-            role: "admin",
-          },
+          _id: "admin",
+          username: "Admin",
+          email: ADMIN_EMAIL,
+          role: "admin",
           tokenExpiration: "1h",
         });
     }

@@ -244,6 +244,10 @@ const CreateUploading = () => {
       const res = await fetch("/api/uploading/upload", {
         method: "POST",
         body: form,
+        credentials: "include",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       if (!res.ok) {
@@ -261,7 +265,7 @@ const CreateUploading = () => {
       }
       navigate(`/profile`);
     } catch (err) {
-      setError(`Error: ${err.message}`);
+      setError(`Error is: ${err.message}`);
       setLoading(false);
     }
   };
