@@ -2,10 +2,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bell, User, Menu } from "lucide-react";
+import { useDispatch } from "react-redux";
+import {
+  signOutUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
+} from "../../redux/user/userSlice";
+import { useSelector } from "react-redux";
 
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
   const [adminInfo, setAdminInfo] = useState({});
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user); // Get user from Redux store
 
   useEffect(() => {
     // Get admin info from local storage or state management
@@ -13,19 +22,34 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
     setAdminInfo(user);
   }, []);
 
+  // const handleSignOut = async () => {
+  //   try {
+  //     const res = await fetch("/api/auth/signout", {
+  //       method: "POST",
+  //       credentials: "include",
+  //     });
+  //     const data = await res.json();
+  //     if (data) {
+  //       localStorage.removeItem("user");
+  //       navigate("/signin");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error signing out:", error);
+  //   }
+  // };
+
   const handleSignOut = async () => {
     try {
-      const res = await fetch("/api/auth/signout", {
-        method: "POST",
-        credentials: "include",
-      });
+      dispatch(signOutUserStart());
+      const res = await fetch("/api/auth/signout");
       const data = await res.json();
-      if (data) {
-        localStorage.removeItem("user");
-        navigate("/signin");
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
       }
+      dispatch(deleteUserSuccess(data));
     } catch (error) {
-      console.error("Error signing out:", error);
+      dispatch(deleteUserFailure(error.message));
     }
   };
 
