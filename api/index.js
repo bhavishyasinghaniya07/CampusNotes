@@ -7,6 +7,8 @@ import cookieParser from "cookie-parser";
 import uploadingRouter from "./routes/uploading.route.js";
 import notesRouter from "./routes/notes.route.js";
 import cors from "cors";
+import adminRoutes from "./routes/admin.route.js";
+import { verifyToken } from "./utils/verifyUser.js";
 
 dotenv.config();
 
@@ -43,6 +45,7 @@ app.use("/api/notes", notesRouter);
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/uploading", uploadingRouter);
+app.use("/api/admin", adminRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
