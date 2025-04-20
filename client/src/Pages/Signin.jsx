@@ -231,7 +231,7 @@ const SignIn = () => {
       const data = response.data;
       console.log("Login response:", data);
 
-      dispatch(signInSuccess(data)); // Successfully signed in
+      dispatch(signInSuccess(data.user)); // Successfully signed in
     } catch (error) {
       console.error("Sign in error:", error);
       const errorMessage = error.response?.data?.message || "Failed to sign in";

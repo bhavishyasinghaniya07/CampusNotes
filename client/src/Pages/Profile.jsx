@@ -39,6 +39,7 @@ const Profile = () => {
 
     try {
       dispatch(updateUserStart());
+      console.log(" hello ji1", currentUser._id);
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: "POST",
         body: form,
@@ -64,6 +65,8 @@ const Profile = () => {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
+      console.log(" hello ji", currentUser._id);
+
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: "POST",
         headers: {
