@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const CreateUploading = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -8,6 +9,7 @@ const CreateUploading = () => {
   const [file, setFile] = useState(null);
   const [showCourseDropdown, setShowCourseDropdown] = useState(false);
   const navigate = useNavigate();
+  const params = useParams();
 
   const courses = [
     // Engineering (B.Tech/B.E)
@@ -210,66 +212,105 @@ const CreateUploading = () => {
     setFile(e.target.files[0]);
   };
 
-  const handleUrlChange = (e) => {
-    setFormData((prev) => ({ ...prev, fileUrl: e.target.value }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!file && !formData.fileUrl) {
-      setError("Please select a file or provide a file URL");
-      return;
-    }
-
     try {
       setLoading(true);
       setError(null);
 
+      // Create FormData object for multipart/form-data submission
       const form = new FormData();
 
+      // Add file if selected
       if (file) {
-        form.append("file", file, file.name);
-      } else {
+        console.log(
+          "Adding file to form data:",
+          file.name,
+          file.type,
+          file.size
+        );
+        form.append("file", file);
+      } else if (formData.fileUrl) {
+        // If we have a URL instead of a file
         form.append("fileUrl", formData.fileUrl);
-        form.append("fileName", formData.fileName || "File from URL");
+      } else {
+        throw new Error("Please select a file or provide a file URL");
       }
 
+      // Add all other form fields - with special handling for uploader
       for (const key in formData) {
-        if (key !== "fileUrl" && key !== "fileName") {
+        // Skip fileUrl if we already have a file
+        if (key === "fileUrl" && file) continue;
+
+        // Only add the uploader if it's a valid value (not undefined)
+        if (key === "uploader") {
+          if (formData[key] && formData[key] !== "undefined") {
+            form.append(key, formData[key]);
+          }
+        } else {
+          // Add all other fields normally
           form.append(key, formData[key]);
         }
       }
 
-      const res = await fetch("/api/uploading/upload", {
+      // Explicitly add the current user ID if available
+      if (currentUser && currentUser._id) {
+        form.append("uploader", currentUser._id);
+      }
+
+      // Log form data for debugging
+      console.log("Form data keys:", [...form.keys()]);
+      console.log(
+        "Form fields:",
+        Object.fromEntries(
+          [...form.entries()].filter(([key]) => key !== "file")
+        )
+      );
+
+      // Determine if we're creating or updating
+      const isUpdate = Boolean(params.updateId);
+      const endpoint = isUpdate
+        ? `/api/uploading/update/${params.updateId}`
+        : "/api/uploading/create";
+
+      // Send the request
+      const res = await fetch(endpoint, {
         method: "POST",
         body: form,
-        credentials: "include",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        // Don't manually set Content-Type here
       });
 
+      // Handle non-JSON responses
       if (!res.ok) {
-        throw new Error(`Upload failed: ${res.statusText}`);
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const errorData = await res.json();
+          throw new Error(
+            errorData.message || `Request failed with status ${res.status}`
+          );
+        } else {
+          const errorText = await res.text();
+          throw new Error(
+            `Request failed with status ${res.status}: ${errorText}`
+          );
+        }
       }
 
       const data = await res.json();
 
       setLoading(false);
-
       if (data.success === false) {
-        setError(data.message);
+        setError(data.message || "Unknown error occurred");
       } else {
-        alert("File uploaded successfully! ✅");
+        alert(`Note ${isUpdate ? "updated" : "created"} successfully `);
+        navigate(isUpdate ? `/notes/${params.updateId}` : "/");
       }
-      navigate(`/profile`);
     } catch (err) {
-      setError(`Error is: ${err.message}`);
+      console.error("Error in handleSubmit:", err);
+      setError(`Error: ${err.message || "Unknown error occurred"}`);
       setLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
@@ -513,9 +554,10 @@ const CreateUploading = () => {
             </div>
 
             {/* File Upload */}
+            {/* File Upload */}
             <div className="space-y-2">
               <label
-                htmlFor="fileUrl"
+                htmlFor="fileUpload"
                 className="block text-sm font-medium text-gray-700"
               >
                 Upload Document (PDF, DOC, etc.){" "}
@@ -539,18 +581,18 @@ const CreateUploading = () => {
                   </svg>
                   <div className="flex text-sm text-gray-600">
                     <label
-                      htmlFor="fileUrl"
+                      htmlFor="fileUpload"
                       className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none"
                     >
                       <span>Upload a file</span>
+                      {/* Important: Use 'file' as the name to match what the server expects */}
                       <input
-                        id="fileUrl"
-                        name="fileUrl"
+                        id="fileUpload"
+                        name="file"
                         type="file"
                         onChange={handleFileChange}
                         accept=".pdf,.doc,.docx,.txt"
                         className="sr-only"
-                        required
                       />
                     </label>
                     <p className="pl-1">or drag and drop</p>
@@ -638,11 +680,12 @@ const CreateUploading = () => {
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       ></path>
                     </svg>
-                    Uploading...
+                    {params.updateId ? "Updating..." : "Uploading..."}
                   </>
                 ) : (
                   <>
-                    <span className="mr-2">📤</span> Share Your Notes
+                    <span className="mr-2">📤</span>{" "}
+                    {params.updateId ? "Update Your Notes" : "Share Your Notes"}
                   </>
                 )}
               </button>

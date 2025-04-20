@@ -64,7 +64,7 @@ const noteSchema = new mongoose.Schema({
   },
   approved: {
     type: Boolean,
-    default: true, // Admin approval
+    default: false, // Admin approval
   },
   comments: {
     type: [commentSchema],
