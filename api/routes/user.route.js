@@ -14,9 +14,18 @@ router.get("/test", test);
 router.post(
   "/update/:id",
   verifyToken,
-  avatarUpload.single("avatar"),
+  (req, res, next) => {
+    avatarUpload.single("avatar")(req, res, (err) => {
+      if (err) {
+        console.error("Multer error:", err);
+        return res.status(400).json({ message: err.message });
+      }
+      next();
+    });
+  },
   updateUser
 );
+
 router.delete("/delete/:id", verifyToken, deleteUser);
 router.get("/uploads/:id", verifyToken, getUserUploads);
 

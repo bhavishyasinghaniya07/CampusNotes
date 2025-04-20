@@ -9,6 +9,10 @@ cloudinary.config({
   api_secret: "58Bj2smsT6A0oV2bL9gDa-pKIOY", // Click 'View API Keys' above to copy your API secret
 });
 
+cloudinary.api.ping((err, res) => {
+  console.log("Cloudinary Ping:", err || res);
+});
+
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {

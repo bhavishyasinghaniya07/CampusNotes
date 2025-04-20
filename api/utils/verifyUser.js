@@ -45,6 +45,8 @@ export const verifyToken = (req, res, next) => {
 
     // Check token from cookies
     if (req.cookies && req.cookies.access_token) {
+      console.log("Token from cookies:", req.cookies.access_token);
+
       token = req.cookies.access_token;
     }
 
@@ -65,6 +67,8 @@ export const verifyToken = (req, res, next) => {
     // Verify token
     const decodedVerified = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decodedVerified; // Attach decoded token to request
+    console.log("Decoded token:", decodedVerified);
+
     next();
   } catch (error) {
     return res
@@ -77,12 +81,10 @@ export const verifyToken = (req, res, next) => {
 export const verifyAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
     if (!req.user || req.user.role !== "admin") {
-      return res
-        .status(403)
-        .json({
-          success: false,
-          message: "Access denied: Admin privileges required",
-        });
+      return res.status(403).json({
+        success: false,
+        message: "Access denied: Admin privileges required",
+      });
     }
     next();
   });
