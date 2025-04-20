@@ -11,6 +11,8 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  if (currentUser?.role === "admin") return null;
+
   return (
     <header className="bg-gradient-to-r from-slate-100 to-slate-200 shadow-lg sticky top-0 z-50 transition-all duration-300">
       <div className="max-w-6xl mx-auto px-4 py-3">

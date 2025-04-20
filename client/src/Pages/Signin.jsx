@@ -240,14 +240,20 @@ const SignIn = () => {
   };
 
   // Separate useEffect to handle only the first navigation
+  console.log("Current user in SignIn component:", currentUser);
+  console.log("Has navigated:", hasNavigated);
 
   if (currentUser && !hasNavigated) {
+    console.log("Current user exists:", currentUser);
+
     // Extract role, checking both possible structures
     const userRole = currentUser.role || currentUser.user?.role;
     console.log("Navigating based on role:", userRole);
     console.log("Full user object:", currentUser);
 
     setHasNavigated(true);
+
+    console.log(userRole);
 
     if (userRole === "admin") {
       console.log("Attempting to navigate to /admin-dashboard");

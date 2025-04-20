@@ -63,14 +63,7 @@ export const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
-    // Admin login
-    console.log(
-      "Admin credentials:",
-      ADMIN_EMAIL,
-      email,
-      ADMIN_PASSWORD,
-      password
-    );
+    // Admin logi
 
     if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
       const token = jwt.sign(
@@ -91,10 +84,12 @@ export const signin = async (req, res, next) => {
         .json({
           success: true,
           message: "Successfully signed in as admin",
-          _id: "admin",
-          username: "Admin",
-          email: ADMIN_EMAIL,
-          role: "admin",
+          user: {
+            _id: "admin",
+            username: "Admin",
+            email: ADMIN_EMAIL,
+            role: "admin",
+          },
           tokenExpiration: "1h",
         });
     }
