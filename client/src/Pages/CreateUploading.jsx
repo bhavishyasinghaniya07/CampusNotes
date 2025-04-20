@@ -253,10 +253,10 @@ const CreateUploading = () => {
         }
       }
 
-      // Explicitly add the current user ID if available
-      if (currentUser && currentUser._id) {
-        form.append("uploader", currentUser._id);
-      }
+      // // Explicitly add the current user ID if available
+      // if (currentUser && currentUser._id) {
+      //   form.append("uploader", currentUser._id);
+      // }
 
       // Log form data for debugging
       console.log("Form data keys:", [...form.keys()]);
