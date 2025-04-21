@@ -3,6 +3,8 @@ import { errorHandler } from "../utils/error.js";
 import fs from "fs";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
+import dotenv from "dotenv";
+dotenv.config();
 
 // Configure Cloudinary
 cloudinary.config({
@@ -72,8 +74,6 @@ export const notesUploading = async (req, res, next) => {
         fileUrl = result.secure_url;
         fileName = req.file.originalname || "Uploaded File";
         fileType = req.file.mimetype || "application/octet-stream";
-
-        
       } catch (cloudinaryError) {
         console.error("Cloudinary upload error:", cloudinaryError);
         return res.status(500).json({

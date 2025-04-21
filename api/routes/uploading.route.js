@@ -201,9 +201,9 @@ if (!fs.existsSync(uploadsDir)) {
 
 // Cloudinary Configuration
 cloudinary.config({
-  cloud_name: "dinn2svqr",
-  api_key: "477623572645727",
-  api_secret: "58Bj2smsT6A0oV2bL9gDa-pKIOY", // Click 'View API Keys' above to copy your API secret
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 // Configure Cloudinary storage (for production use)
