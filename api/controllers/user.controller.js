@@ -10,13 +10,6 @@ export const test = (req, res) => {
 };
 
 export const updateUser = async (req, res, next) => {
-  console.log("Hii");
-
-  console.log("User ID from token:", req.user.id);
-  console.log("User ID from params:", req.params.id);
-  console.log("Request body:", req.body);
-  console.log("Request file:", req.file);
-
   if (req.user.id !== req.params.id) {
     return next(errorHandler(401, "You can only update your own account!"));
   }

@@ -28,7 +28,6 @@ const storage = multer.diskStorage({
 // File filter to validate and log incoming files
 const fileFilter = (req, file, cb) => {
   // Log incoming file details
-  console.log("Incoming file:", file.originalname, "Type:", file.mimetype);
   cb(null, true);
 };
 
@@ -59,9 +58,6 @@ const uploadToCloudinary = async (filePath) => {
 
 export const notesUploading = async (req, res, next) => {
   try {
-    console.log("Received request body:", req.body);
-    console.log("Received file:", req.file);
-
     // Check if we have a file or fileUrl
     let fileUrl = "";
     let fileName = "";
@@ -77,7 +73,7 @@ export const notesUploading = async (req, res, next) => {
         fileName = req.file.originalname || "Uploaded File";
         fileType = req.file.mimetype || "application/octet-stream";
 
-        console.log("Cloudinary upload result:", result);
+        
       } catch (cloudinaryError) {
         console.error("Cloudinary upload error:", cloudinaryError);
         return res.status(500).json({
@@ -97,10 +93,6 @@ export const notesUploading = async (req, res, next) => {
     }
 
     // Log the file details for debugging
-    console.log("File Details:");
-    console.log(" - URL:", fileUrl);
-    console.log(" - Name:", fileName);
-    console.log(" - Type:", fileType);
 
     // Get other form fields with default values if missing
     const title = req.body.title || "";
@@ -144,8 +136,6 @@ export const notesUploading = async (req, res, next) => {
       fileType,
     });
 
-    console.log("Note uploaded successfully:", uploading);
-
     // Return success response
     return res.status(201).json({
       success: true,
@@ -188,9 +178,6 @@ export const deleteNotes = async (req, res, next) => {
 
 export const updateNotes = async (req, res, next) => {
   try {
-    console.log("Request body:", req.body);
-    console.log("File:", req.file);
-
     const note = await Note.findById(req.params.id);
 
     if (!note) {
@@ -216,8 +203,6 @@ export const updateNotes = async (req, res, next) => {
         note.fileUrl = result.secure_url;
         note.fileName = req.file.originalname || "Uploaded File";
         note.fileType = req.file.mimetype || "application/octet-stream";
-
-        console.log("File updated in Cloudinary:", result);
       } catch (cloudinaryError) {
         console.error("Cloudinary update error:", cloudinaryError);
         return res.status(500).json({

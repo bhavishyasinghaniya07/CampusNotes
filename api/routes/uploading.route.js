@@ -233,8 +233,6 @@ const storage =
 
 // File filter function
 const fileFilter = (req, file, cb) => {
-  console.log("Validating file type:", file.mimetype);
-
   // Accept PDF, DOC, DOCX, TXT files
   if (
     file.mimetype === "application/pdf" ||
@@ -274,11 +272,6 @@ const uploadMiddleware = (req, res, next) => {
       });
     }
 
-    console.log(
-      "File upload check:",
-      req.file ? "File received" : "No file received"
-    );
-
     // If no file was uploaded but there's a fileUrl in the request body, use that instead
     if (!req.file && req.body.fileUrl) {
       console.log("No file uploaded, but fileUrl provided in request body");
@@ -289,14 +282,6 @@ const uploadMiddleware = (req, res, next) => {
         req.file.path = req.file.path.replace(/\\/g, "/"); // Normalize path separators
         req.file.url = `${baseUrl}/${req.file.path}`;
       }
-
-      console.log("File details:", {
-        originalname: req.file.originalname,
-        mimetype: req.file.mimetype,
-        size: req.file.size,
-        path: req.file.path || "(No path)",
-        url: req.file.url || req.file.secure_url || "(No URL)",
-      });
 
       // Ensure consistent interface for the controllers
       req.body.fileUrl = req.file.url || req.file.secure_url || req.file.path;

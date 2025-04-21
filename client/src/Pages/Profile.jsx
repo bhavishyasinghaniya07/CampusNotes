@@ -39,7 +39,7 @@ const Profile = () => {
 
     try {
       dispatch(updateUserStart());
-      console.log(" hello ji1", currentUser._id);
+
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: "POST",
         body: form,
@@ -65,7 +65,6 @@ const Profile = () => {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      console.log(" hello ji", currentUser._id);
 
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: "POST",
@@ -169,7 +168,6 @@ const Profile = () => {
       });
       const data = await res.json();
       if (data.success === false) {
-        console.log(data.message);
         return;
       }
       setarchivedNotes((prev) => prev.filter((note) => note._id !== noteId));

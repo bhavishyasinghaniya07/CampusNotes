@@ -17,7 +17,6 @@ export const removeArchiveNote = async (req, res) => {
 
     note.archived = false; // Mark note as not archived
     await note.save();
-    console.log("I am here ", note.archived);
 
     // Also remove from user.archivedNotes array
     const userId = req.user.id;
