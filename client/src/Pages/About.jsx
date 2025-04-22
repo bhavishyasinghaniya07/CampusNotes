@@ -1,4 +1,6 @@
 import React from "react";
+import manish from "../assets/manish.jpeg";
+import bhavishya from "../assets/bhavishya.jpeg";
 
 const About = () => {
   return (
@@ -467,7 +469,7 @@ const About = () => {
               <div className="relative mb-6">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full transform -rotate-6"></div>
                 <img
-                  src="https://media.licdn.com/dms/image/v2/D5603AQF1_8emDHjh3A/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1689821341436?e=1750291200&v=beta&t=-pez_1pef3KUvZFzqH8memNRKobLAGKDhtx9xDDQJI0"
+                  src={bhavishya}
                   alt="Bhavishya"
                   className="relative rounded-full w-32 h-32 object-cover border-4 border-white shadow-md"
                 />
@@ -507,7 +509,7 @@ const About = () => {
               <div className="relative mb-6">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full transform rotate-6"></div>
                 <img
-                  src="https://media.licdn.com/dms/image/v2/D5603AQF8n-7QXixUIw/profile-displayphoto-shrink_400_400/B56ZUo.oPgHoAk-/0/1740149264022?e=1750291200&v=beta&t=-4cr3RI5kbQdcA4inr18gzaRnEdfgTCi5pKC1alsiRc"
+                  src={manish}
                   alt="Manish"
                   className="relative rounded-full w-32 h-32 object-cover border-4 border-white shadow-md"
                 />
