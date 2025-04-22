@@ -40,7 +40,7 @@ export const signin = async (req, res, next) => {
       const token = jwt.sign(
         { id: "admin", role: "admin" },
         process.env.JWT_SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: "30d" }
       );
 
       return res
@@ -61,7 +61,7 @@ export const signin = async (req, res, next) => {
             email: process.env.ADMIN_EMAIL,
             role: "admin",
           },
-          tokenExpiration: "1h",
+          tokenExpiration: "30d",
         });
     }
 
@@ -83,7 +83,7 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "30d" }
     );
 
     res
@@ -104,7 +104,7 @@ export const signin = async (req, res, next) => {
           email: user.email,
           role: user.role,
         },
-        tokenExpiration: "1h",
+        tokenExpiration: "30d",
       });
   } catch (error) {
     console.error(error);
