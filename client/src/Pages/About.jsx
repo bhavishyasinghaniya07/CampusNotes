@@ -441,19 +441,19 @@ const About = () => {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl shadow-lg text-white">
-              <h3 className="text-4xl font-extrabold mb-2">1,200+</h3>
+              <h3 className="text-4xl font-extrabold mb-2">300+</h3>
               <p className="text-blue-100">Notes Shared</p>
             </div>
             <div className="bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-2xl shadow-lg text-white">
-              <h3 className="text-4xl font-extrabold mb-2">500+</h3>
+              <h3 className="text-4xl font-extrabold mb-2">200+</h3>
               <p className="text-green-100">Students Helped</p>
             </div>
             <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-6 rounded-2xl shadow-lg text-white">
-              <h3 className="text-4xl font-extrabold mb-2">25+</h3>
+              <h3 className="text-4xl font-extrabold mb-2">10+</h3>
               <p className="text-purple-100">Colleges</p>
             </div>
             <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 p-6 rounded-2xl shadow-lg text-white">
-              <h3 className="text-4xl font-extrabold mb-2">100+</h3>
+              <h3 className="text-4xl font-extrabold mb-2">50+</h3>
               <p className="text-indigo-100">Subjects</p>
             </div>
           </div>
@@ -481,11 +481,16 @@ const About = () => {
                 Full Stack Developer
               </p>
               <p className="text-gray-600 mb-4 text-sm">
-                Passionate about creating educational tools that make learning
-                accessible to everyone.
+                "A passionate developer focused on building scalable web
+                applications with clean UI and efficient backend solutions."
               </p>
               <div className="flex space-x-3">
-                <a href="#" className="text-blue-500 hover:text-blue-700">
+                <a
+                  href="https://www.linkedin.com/in/bhavishya-parmar-23555a284"
+                  className="text-blue-500 hover:text-blue-700"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <svg
                     className="w-5 h-5"
                     fill="currentColor"
@@ -494,7 +499,12 @@ const About = () => {
                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                   </svg>
                 </a>
-                <a href="#" className="text-gray-700 hover:text-gray-900">
+                <a
+                  href="https://github.com/bhavishyasinghaniya07/"
+                  className="text-gray-700 hover:text-gray-900"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <svg
                     className="w-5 h-5"
                     fill="currentColor"
@@ -521,11 +531,17 @@ const About = () => {
                 Full Stack Developer
               </p>
               <p className="text-gray-600 mb-4 text-sm">
-                Building intuitive interfaces and robust backend systems to
-                power academic collaboration.
+                "Driven by curiosity and creativity, I build full-stack projects
+                that solve real-world problems with intuitive design and robust
+                architecture."
               </p>
               <div className="flex space-x-3">
-                <a href="#" className="text-blue-500 hover:text-blue-700">
+                <a
+                  href="https://www.linkedin.com/in/manish-kumar-sharma-a29312288/"
+                  className="text-blue-500 hover:text-blue-700"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <svg
                     className="w-5 h-5"
                     fill="currentColor"
@@ -534,7 +550,12 @@ const About = () => {
                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                   </svg>
                 </a>
-                <a href="#" className="text-gray-700 hover:text-gray-900">
+                <a
+                  href="https://github.com/manish-sharma220"
+                  className="text-gray-700 hover:text-gray-900"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <svg
                     className="w-5 h-5"
                     fill="currentColor"

@@ -223,28 +223,28 @@ const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white p-8 rounded-xl shadow-lg border-b-4 border-blue-500 text-center">
               <h3 className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">
-                1,200+
+                300+
               </h3>
               <p className="text-gray-600 font-medium">Notes Shared</p>
             </div>
 
             <div className="bg-white p-8 rounded-xl shadow-lg border-b-4 border-green-500 text-center">
               <h3 className="text-3xl md:text-4xl font-bold text-green-600 mb-2">
-                500+
+                200+
               </h3>
               <p className="text-gray-600 font-medium">Students Helped</p>
             </div>
 
             <div className="bg-white p-8 rounded-xl shadow-lg border-b-4 border-purple-500 text-center">
               <h3 className="text-3xl md:text-4xl font-bold text-purple-600 mb-2">
-                50+
+                10+
               </h3>
               <p className="text-gray-600 font-medium">Colleges Covered</p>
             </div>
 
             <div className="bg-white p-8 rounded-xl shadow-lg border-b-4 border-yellow-500 text-center">
               <h3 className="text-3xl md:text-4xl font-bold text-yellow-600 mb-2">
-                10,000+
+                500+
               </h3>
               <p className="text-gray-600 font-medium">Total Likes</p>
             </div>
@@ -274,11 +274,11 @@ const Home = () => {
               </p>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-                  JD
+                  RG
                 </div>
                 <div>
-                  <p className="font-semibold">John Doe</p>
-                  <p className="text-gray-500 text-sm">BCA, XYZ University</p>
+                  <p className="font-semibold">Raghav Gupta</p>
+                  <p className="text-gray-500 text-sm">BTech, RGPV, Bhopal</p>
                 </div>
               </div>
             </div>
@@ -294,11 +294,11 @@ const Home = () => {
               </p>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
-                  JS
+                  RA
                 </div>
                 <div>
-                  <p className="font-semibold">Jane Smith</p>
-                  <p className="text-gray-500 text-sm">MCA, ABC University</p>
+                  <p className="font-semibold">Raman Agnihotri</p>
+                  <p className="text-gray-500 text-sm">MCA, MANIT, Bhopal</p>
                 </div>
               </div>
             </div>
