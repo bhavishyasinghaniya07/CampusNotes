@@ -8,7 +8,7 @@ import { CgProfile } from "react-icons/cg";
 import { useSelector } from "react-redux";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api", // Backend API
+  baseURL: "https://campusnotes-api.onrender.com/api", // Backend API
   withCredentials: true, // Ensure credentials (cookies) are sent with requests
   headers: {
     Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Use the correct token
@@ -212,15 +212,18 @@ const BrowseNotes = () => {
   const fetchNotes = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get("http://localhost:3000/api/notes", {
-        params: {
-          search: search || "",
-          subject: filters.subject,
-          course: filters.course,
-          semester: filters.semester,
-          college: filters.college,
-        },
-      });
+      const response = await axios.get(
+        "https://campusnotes-api.onrender.com/api/notes",
+        {
+          params: {
+            search: search || "",
+            subject: filters.subject,
+            course: filters.course,
+            semester: filters.semester,
+            college: filters.college,
+          },
+        }
+      );
 
       setNotes(response.data.notes); // Update state with fetched notes
 
@@ -246,7 +249,7 @@ const BrowseNotes = () => {
       // You could have a separate API endpoint for suggestions
       // or just filter from existing data
       const response = await axios.get(
-        "http://localhost:3000/api/search-suggestions",
+        "https://campusnotes-api.onrender.com/api/search-suggestions",
         {
           params: { query },
         }

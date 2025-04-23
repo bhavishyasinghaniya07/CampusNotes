@@ -41,7 +41,7 @@ app.listen(3000, () => {
 });
 
 const corsOptions = {
-  origin: "http://localhost:5173", // Your frontend URL
+  origin: "https://campus-notes-nu.vercel.app/", // Your frontend URL
   methods: "GET, POST, PUT, DELETE",
   allowedHeaders: "Content-Type, Authorization",
   credentials: true, // Allow credentials (cookies)
