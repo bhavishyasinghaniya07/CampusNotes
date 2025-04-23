@@ -1,6 +1,17 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+// In an ESM file (e.g., .mjs or .js with "type": "module")
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
+// Now you can use require
+const fs = require("fs");
+const coreJs = require("core-js");
+
 import express from "express";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
@@ -9,8 +20,6 @@ import notesRouter from "./routes/notes.route.js";
 import cors from "cors";
 import adminRoutes from "./routes/admin.route.js";
 import { verifyToken } from "./utils/verifyUser.js";
-
-dotenv.config();
 
 mongoose
   .connect(process.env.MONGO)
