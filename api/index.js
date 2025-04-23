@@ -40,11 +40,22 @@ app.listen(3000, () => {
   console.log("Server is runnig at port 3000");
 });
 
+const allowedOrigins = [
+  "https://campus-notes-nu.vercel.app",
+  "https://campus-notes-8a33jrvzd-bhavishyasinghaniya07s-projects.vercel.app",
+];
+
 const corsOptions = {
-  origin: "https://campus-notes-nu.vercel.app/", // Your frontend URL
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: "GET, POST, PUT, DELETE",
   allowedHeaders: "Content-Type, Authorization",
-  credentials: true, // Allow credentials (cookies)
+  credentials: true,
 };
 
 // Apply CORS middleware
