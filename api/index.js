@@ -43,6 +43,7 @@ app.listen(3000, () => {
 const allowedOrigins = [
   "https://campus-notes-nu.vercel.app",
   "https://campus-notes-8a33jrvzd-bhavishyasinghaniya07s-projects.vercel.app",
+  "https://campus-notes-git-main-bhavishyasinghaniya07s-projects.vercel.app",
 ];
 
 const corsOptions = {
