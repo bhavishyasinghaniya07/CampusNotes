@@ -41,7 +41,9 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
-      const res = await fetch("/api/auth/signout");
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/auth/signout`
+      );
       const data = await res.json();
       if (data.success === false) {
         dispatch(deleteUserFailure(data.message));

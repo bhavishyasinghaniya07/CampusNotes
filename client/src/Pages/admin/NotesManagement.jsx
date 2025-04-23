@@ -25,9 +25,12 @@ const NotesManagement = () => {
   const fetchNotes = async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/admin/notes", {
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/admin/notes`,
+        {
+          credentials: "include",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch notes");
@@ -51,10 +54,13 @@ const NotesManagement = () => {
   const handleDeleteNote = async (noteId) => {
     if (window.confirm("Are you sure you want to delete this note?")) {
       try {
-        const response = await fetch(`/api/admin/notes/${noteId}`, {
-          method: "DELETE",
-          credentials: "include",
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/admin/notes/${noteId}`,
+          {
+            method: "DELETE",
+            credentials: "include",
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to delete note");
@@ -70,14 +76,17 @@ const NotesManagement = () => {
 
   const handleApproveReject = async (noteId, approved) => {
     try {
-      const response = await fetch(`/api/admin/notes/${noteId}/review`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ approved }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/admin/notes/${noteId}/review`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ approved }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update note status");

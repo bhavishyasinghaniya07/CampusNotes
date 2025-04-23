@@ -199,7 +199,9 @@ const UpdateNotes = () => {
   useEffect(() => {
     const fetchUpdate = async () => {
       const updateId = params.updateId;
-      const res = await fetch(`/api/uploading/get/${updateId}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/uploading/get/${updateId}`
+      );
 
       const data = await res.json();
 
@@ -259,10 +261,15 @@ const UpdateNotes = () => {
         }
       }
 
-      const res = await fetch(`/api/uploading/update/${params.updateId}`, {
-        method: "POST",
-        body: form,
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/uploading/update/${
+          params.updateId
+        }`,
+        {
+          method: "POST",
+          body: form,
+        }
+      );
 
       if (!res.ok) {
         throw new Error(`Update failed: ${res.statusText}`);

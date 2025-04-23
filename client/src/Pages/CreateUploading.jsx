@@ -270,8 +270,10 @@ const CreateUploading = () => {
       // Determine if we're creating or updating
       const isUpdate = Boolean(params.updateId);
       const endpoint = isUpdate
-        ? `/api/uploading/update/${params.updateId}`
-        : "/api/uploading/create";
+        ? `${import.meta.env.VITE_API_URL}/api/uploading/update/${
+            params.updateId
+          }`
+        : `${import.meta.env.VITE_API_URL}/api/uploading/create`;
 
       // Send the request
       const res = await fetch(endpoint, {

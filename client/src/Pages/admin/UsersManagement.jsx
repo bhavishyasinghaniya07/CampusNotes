@@ -1,18 +1,18 @@
 // src/components/admin/UsersManagement.jsx
-import { useState, useEffect } from 'react';
-import { Pencil, Trash2, Search } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Pencil, Trash2, Search } from "lucide-react";
 
 const UsersManagement = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    role: ''
+    username: "",
+    email: "",
+    role: "",
   });
 
   useEffect(() => {
@@ -22,14 +22,17 @@ const UsersManagement = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/admin/users', {
-        credentials: 'include'
-      });
-      
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/admin/users`,
+        {
+          credentials: "include",
+        }
+      );
+
       if (!response.ok) {
-        throw new Error('Failed to fetch users');
+        throw new Error("Failed to fetch users");
       }
-      
+
       const data = await response.json();
       setUsers(data);
     } catch (err) {
@@ -44,25 +47,32 @@ const UsersManagement = () => {
     setFormData({
       username: user.username,
       email: user.email,
-      role: user.role || 'user'
+      role: user.role || "user",
     });
     setIsEditing(true);
   };
 
   const handleDeleteClick = async (userId) => {
-    if (window.confirm('Are you sure you want to delete this user? This will also delete all their notes.')) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this user? This will also delete all their notes."
+      )
+    ) {
       try {
-        const response = await fetch(`/api/admin/users/${userId}`, {
-          method: 'DELETE',
-          credentials: 'include'
-        });
-        
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/admin/users/${userId}`,
+          {
+            method: "DELETE",
+            credentials: "include",
+          }
+        );
+
         if (!response.ok) {
-          throw new Error('Failed to delete user');
+          throw new Error("Failed to delete user");
         }
-        
+
         // Remove user from list
-        setUsers(users.filter(user => user._id !== userId));
+        setUsers(users.filter((user) => user._id !== userId));
       } catch (err) {
         setError(err.message);
       }
@@ -72,33 +82,38 @@ const UsersManagement = () => {
   const handleFormChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`/api/admin/users/${selectedUser._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify(formData)
-      });
-      
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/admin/users/${selectedUser._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(formData),
+        }
+      );
+
       if (!response.ok) {
-        throw new Error('Failed to update user');
+        throw new Error("Failed to update user");
       }
-      
+
       const updatedUser = await response.json();
-      
+
       // Update user in list
-      setUsers(users.map(user => 
-        user._id === selectedUser._id ? updatedUser : user
-      ));
-      
+      setUsers(
+        users.map((user) =>
+          user._id === selectedUser._id ? updatedUser : user
+        )
+      );
+
       setIsEditing(false);
       setSelectedUser(null);
     } catch (err) {
@@ -106,12 +121,18 @@ const UsersManagement = () => {
     }
   };
 
-  const filteredUsers = users.filter(user => 
-    user.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredUsers = users.filter(
+    (user) =>
+      user.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (loading) return <div className="flex justify-center items-center h-64">Loading users...</div>;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-64">
+        Loading users...
+      </div>
+    );
 
   return (
     <div className="space-y-6">
@@ -129,7 +150,9 @@ const UsersManagement = () => {
         </div>
       </div>
 
-      {error && <div className="bg-red-100 text-red-700 p-3 rounded-md">{error}</div>}
+      {error && (
+        <div className="bg-red-100 text-red-700 p-3 rounded-md">{error}</div>
+      )}
 
       {isEditing && (
         <div className="bg-white p-6 rounded-lg shadow mb-6">
@@ -137,7 +160,9 @@ const UsersManagement = () => {
           <form onSubmit={handleFormSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Username
+                </label>
                 <input
                   type="text"
                   name="username"
@@ -148,7 +173,9 @@ const UsersManagement = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email
+                </label>
                 <input
                   type="email"
                   name="email"
@@ -159,7 +186,9 @@ const UsersManagement = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Role
+                </label>
                 <select
                   name="role"
                   value={formData.role}
@@ -198,27 +227,47 @@ const UsersManagement = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Notes</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Username
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Email
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Role
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Notes
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredUsers.length > 0 ? (
                 filteredUsers.map((user) => (
                   <tr key={user._id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{user.username}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {user.username}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'
-                      }`}>
-                        {user.role || 'user'}
+                      {user.email}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          user.role === "admin"
+                            ? "bg-purple-100 text-purple-800"
+                            : "bg-green-100 text-green-800"
+                        }`}
+                      >
+                        {user.role || "user"}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.notesCount || 0}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {user.notesCount || 0}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <div className="flex space-x-2">
                         <button
@@ -239,7 +288,10 @@ const UsersManagement = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" className="px-6 py-4 text-center text-sm text-gray-500">
+                  <td
+                    colSpan="5"
+                    className="px-6 py-4 text-center text-sm text-gray-500"
+                  >
                     No users found matching your search
                   </td>
                 </tr>

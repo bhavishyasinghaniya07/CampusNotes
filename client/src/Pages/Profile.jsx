@@ -40,10 +40,13 @@ const Profile = () => {
     try {
       dispatch(updateUserStart());
 
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: "POST",
-        body: form,
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/user/update/${currentUser._id}`,
+        {
+          method: "POST",
+          body: form,
+        }
+      );
       const data = await res.json();
       if (!res.ok || data.success === false) {
         dispatch(updateUserFailure(data.message));
@@ -66,14 +69,17 @@ const Profile = () => {
     try {
       dispatch(updateUserStart());
 
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${currentUser.token}`,
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/user/update/${currentUser._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${currentUser.token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await res.json();
       if (data.success === false) {
         dispatch(updateUserFailure(data.message));
@@ -95,9 +101,12 @@ const Profile = () => {
     ) {
       try {
         dispatch(deleteUserStart());
-        const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-          method: "DELETE",
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/user/delete/${currentUser._id}`,
+          {
+            method: "DELETE",
+          }
+        );
         const data = await res.json();
         if (data.success === false) {
           dispatch(deleteUserFailure(data.message));
@@ -113,7 +122,9 @@ const Profile = () => {
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
-      const res = await fetch("/api/auth/signout");
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/auth/signout`
+      );
       const data = await res.json();
       if (data.success === false) {
         dispatch(deleteUserFailure(data.message));
@@ -129,7 +140,9 @@ const Profile = () => {
     setActiveTab("uploads");
     try {
       setShowUploadsErrors(false);
-      const res = await fetch(`/api/user/uploads/${currentUser._id}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/user/uploads/${currentUser._id}`
+      );
       const data = await res.json();
       if (data.success === false) {
         setShowUploadsErrors(true);
@@ -145,7 +158,9 @@ const Profile = () => {
     setActiveTab("archived");
     try {
       setShowUploadsErrors(false);
-      const res = await fetch(`/api/notes/archived/${currentUser._id}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/notes/archived/${currentUser._id}`
+      );
       const data = await res.json();
       if (data.success === false) {
         setShowUploadsErrors(true);
@@ -159,13 +174,16 @@ const Profile = () => {
 
   const handleRemoveArchive = async (noteId) => {
     try {
-      const res = await fetch(`/api/notes/remove-archive/${noteId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${currentUser.token}`,
-        },
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/notes/remove-archive/${noteId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${currentUser.token}`,
+          },
+        }
+      );
       const data = await res.json();
       if (data.success === false) {
         return;
@@ -179,9 +197,12 @@ const Profile = () => {
   const handleNotesDelete = async (uploadingId) => {
     if (window.confirm("Are you sure you want to delete this note?")) {
       try {
-        const res = await fetch(`/api/uploading/delete/${uploadingId}`, {
-          method: "DELETE",
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/uploading/delete/${uploadingId}`,
+          {
+            method: "DELETE",
+          }
+        );
         const data = await res.json();
         if (data.success === false) {
           console.log(data.message);
