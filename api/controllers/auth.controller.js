@@ -50,6 +50,7 @@ export const signin = async (req, res, next) => {
           sameSite: "None",
           maxAge: 3600000,
           path: "/",
+          domain: "https://campusnotes-amh9.onrender.com/",
         })
         .status(200)
         .json({
