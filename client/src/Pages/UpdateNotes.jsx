@@ -200,7 +200,8 @@ const UpdateNotes = () => {
     const fetchUpdate = async () => {
       const updateId = params.updateId;
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/uploading/get/${updateId}`
+        `${import.meta.env.VITE_API_URL}/api/uploading/get/${updateId}`,
+        { credentials: "include" }
       );
 
       const data = await res.json();
@@ -268,7 +269,9 @@ const UpdateNotes = () => {
         {
           method: "POST",
           body: form,
+          credentials: "include",
         }
+        
       );
 
       if (!res.ok) {

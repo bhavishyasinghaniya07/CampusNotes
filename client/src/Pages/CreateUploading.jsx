@@ -279,6 +279,7 @@ const CreateUploading = () => {
       const res = await fetch(endpoint, {
         method: "POST",
         body: form,
+        credentials: "include",
         // Don't manually set Content-Type here
       });
 

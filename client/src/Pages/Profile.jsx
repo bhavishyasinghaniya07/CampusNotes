@@ -45,6 +45,7 @@ const Profile = () => {
         {
           method: "POST",
           body: form,
+          credentials: "include",
         }
       );
       const data = await res.json();
@@ -77,6 +78,7 @@ const Profile = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${currentUser.token}`,
           },
+          credentials: "include",
           body: JSON.stringify(formData),
         }
       );
@@ -105,6 +107,7 @@ const Profile = () => {
           `${import.meta.env.VITE_API_URL}/api/user/delete/${currentUser._id}`,
           {
             method: "DELETE",
+            credentials: "include",
           }
         );
         const data = await res.json();
@@ -123,7 +126,8 @@ const Profile = () => {
     try {
       dispatch(signOutUserStart());
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/auth/signout`
+        `${import.meta.env.VITE_API_URL}/api/auth/signout`,
+        { credentials: "include" }
       );
       const data = await res.json();
       if (data.success === false) {
@@ -141,7 +145,8 @@ const Profile = () => {
     try {
       setShowUploadsErrors(false);
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/user/uploads/${currentUser._id}`
+        `${import.meta.env.VITE_API_URL}/api/user/uploads/${currentUser._id}`,
+        { credentials: "include" }
       );
       const data = await res.json();
       if (data.success === false) {
@@ -159,7 +164,8 @@ const Profile = () => {
     try {
       setShowUploadsErrors(false);
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/notes/archived/${currentUser._id}`
+        `${import.meta.env.VITE_API_URL}/api/notes/archived/${currentUser._id}`,
+        { credentials: "include" }
       );
       const data = await res.json();
       if (data.success === false) {
@@ -181,6 +187,7 @@ const Profile = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${currentUser.token}`,
+            credentials: "include",
           },
         }
       );
@@ -201,6 +208,7 @@ const Profile = () => {
           `${import.meta.env.VITE_API_URL}/api/uploading/delete/${uploadingId}`,
           {
             method: "DELETE",
+            credentials: "include",
           }
         );
         const data = await res.json();

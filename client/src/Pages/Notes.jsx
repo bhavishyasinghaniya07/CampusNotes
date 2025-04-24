@@ -71,6 +71,7 @@ const Notes = () => {
         }/${commentId}`,
         {
           method: "PUT",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },

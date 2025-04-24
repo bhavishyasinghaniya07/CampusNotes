@@ -42,7 +42,8 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
     try {
       dispatch(signOutUserStart());
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/auth/signout`
+        `${import.meta.env.VITE_API_URL}/api/auth/signout`,
+        { credentials: "include" }
       );
       const data = await res.json();
       if (data.success === false) {
