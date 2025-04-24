@@ -40,28 +40,29 @@ app.listen(3000, () => {
   console.log("Server is runnig at port 3000");
 });
 
-const allowedOrigins = [
-  "https://campusnotes-amh9.onrender.com",
-  // "https://campus-notes-8a33jrvzd-bhavishyasinghaniya07s-projects.vercel.app",
-  // "https://campus-notes-git-main-bhavishyasinghaniya07s-projects.vercel.app",
-  // "https://campus-notes-nu.vercel.app",
-];
+// const allowedOrigins = ["https://campusnotes-amh9.onrender.com"];
+const allowedOrigins = ["https://campusnotes-amh9.onrender.com"];
 
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.error("Blocked by CORS:", origin);
       callback(new Error("Not allowed by CORS"));
     }
   },
-  methods: "GET, POST, PUT, DELETE",
-  allowedHeaders: "Content-Type, Authorization",
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-// Apply CORS middleware
 app.use(cors(corsOptions));
+
+app.get("/", (req, res) => {
+  res.send("Hello from Campus Notes API");
+});
+
 app.use("/api/notes", notesRouter);
 
 app.use("/api/user", userRouter);
