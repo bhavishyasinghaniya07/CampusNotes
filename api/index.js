@@ -41,7 +41,10 @@ app.listen(3000, () => {
 });
 
 // const allowedOrigins = ["https://campusnotes-amh9.onrender.com"];
-const allowedOrigins = ["https://campusnotes-amh9.onrender.com"];
+const allowedOrigins = [
+  "https://campusnotes-amh9.onrender.com",
+  "http://localhost:3000",
+];
 
 const corsOptions = {
   origin: function (origin, callback) {
