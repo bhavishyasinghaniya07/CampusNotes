@@ -5,7 +5,7 @@ import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
 dotenv.config();
-import https from 'https';
+import https from "https";
 
 // Configure Cloudinary
 cloudinary.config({
@@ -18,7 +18,7 @@ cloudinary.config({
 // Create robust storage configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "api/uploads");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -325,8 +325,6 @@ export const downloadNote = async (req, res, next) => {
 
     // Proxy the request to Cloudinary instead of redirecting
     // You can use a library like 'axios' or Node's built-in http/https
-   
-
 
     https
       .get(note.fileUrl, (fileResponse) => {

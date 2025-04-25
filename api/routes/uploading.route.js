@@ -15,7 +15,8 @@ import fs from "fs";
 const router = express.Router();
 
 // Create uploads directory if it doesn't exist
-const uploadsDir = path.join(process.cwd(), "uploads");
+const uploadsDir = path.join(process.cwd(), "api", "uploads");
+
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
@@ -40,7 +41,7 @@ const cloudinaryStorage = new CloudinaryStorage({
 // Local storage configuration (for development or fallback)
 const diskStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, path.join("api", "uploads"));
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -141,7 +142,10 @@ router.get("/get/:id", getNotes);
 
 // Serve uploaded files in development
 if (process.env.NODE_ENV !== "production") {
-  router.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+  router.use(
+    "/uploads",
+    express.static(path.join(process.cwd(), "api", "uploads"))
+  );
 }
 
 export default router;
