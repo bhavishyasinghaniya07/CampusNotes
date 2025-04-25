@@ -45,7 +45,7 @@ export const signin = async (req, res, next) => {
 
       return res
         .cookie("access_token", token, {
-          httpOnly: true,
+          httpOnly: false,
           secure: process.env.NODE_ENV === "production",
           sameSite: "None",
           maxAge: 3600000,
@@ -89,7 +89,7 @@ export const signin = async (req, res, next) => {
 
     res
       .cookie("access_token", token, {
-        httpOnly: true,
+        httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         sameSite: "None",
         maxAge: 3600000, // 1 hour
