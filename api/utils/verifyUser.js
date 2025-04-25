@@ -1,62 +1,22 @@
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
-// // Middleware to verify the token
-// export const verifyToken = (req, res, next) => {
-//   try {
-//     let token;
-//     console.log("Request headers:", req);
-//     // Check token from cookies
-//     if (req.cookies && req.cookies.access_token) {
-//       console.log("Token from cookies:", req.cookies.access_token);
-//       token = req.cookies.access_token;
-//     }
-
-//     // Check token from Authorization header
-//     else if (
-//       req.headers.authorization &&
-//       req.headers.authorization.startsWith("Bearer")
-//     ) {
-//       token = req.headers.authorization.split(" ")[1];
-//     }
-
-//     if (!token) {
-//       return res
-//         .status(403)
-//         .json({ success: false, message: "No token provided" });
-//     }
-
-//     // Verify token
-//     const decodedVerified = jwt.verify(token, process.env.JWT_SECRET);
-//     req.user = decodedVerified; // Attach decoded token to request
-
-//     next();
-//   } catch (error) {
-//     return res
-//       .status(401)
-//       .json({ success: false, message: "Unauthorized", error });
-//   }
-// };
-
+// Middleware to verify the token
 export const verifyToken = (req, res, next) => {
   try {
     let token;
-
-    // Console log just the headers, not the entire request
-    console.log("Request headers:", req.headers);
-    console.log("Request cookies:", req.cookies);
-
+    console.log("Request headers:", req);
     // Check token from cookies
     if (req.cookies && req.cookies.access_token) {
       console.log("Token from cookies:", req.cookies.access_token);
       token = req.cookies.access_token;
     }
+
     // Check token from Authorization header
     else if (
       req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer ")
+      req.headers.authorization.startsWith("Bearer")
     ) {
       token = req.headers.authorization.split(" ")[1];
-      console.log("Token from Authorization header:", token);
     }
 
     if (!token) {
@@ -67,18 +27,16 @@ export const verifyToken = (req, res, next) => {
 
     // Verify token
     const decodedVerified = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decodedVerified;
+    req.user = decodedVerified; // Attach decoded token to request
 
     next();
   } catch (error) {
-    console.error("Token verification error:", error);
-    return res.status(401).json({
-      success: false,
-      message: "Unauthorized",
-      error: process.env.NODE_ENV === "development" ? error.message : undefined,
-    });
+    return res
+      .status(401)
+      .json({ success: false, message: "Unauthorized", error });
   }
 };
+
 // export const verifyToken = (req, res, next) => {
 //   try {
 //     let token;
