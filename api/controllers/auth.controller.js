@@ -87,26 +87,24 @@ export const signin = async (req, res, next) => {
       { expiresIn: "30d" }
     );
 
-    res
-      .cookie("access_token", token, {
-        httpOnly: false,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "None",
-        maxAge: 3600000, // 1 hour
-        path: "/",
-      })
-      .status(200)
-      .json({
-        success: true,
-        message: "Successfully signed in",
-        user: {
-          _id: user._id,
-          username: user.username,
-          email: user.email,
-          role: user.role,
-        },
-        tokenExpiration: "30d",
-      });
+    res.cookie("access_token", token, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+      maxAge: 3600000, // 1 hour
+      path: "/",
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Successfully signed in",
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+      tokenExpiration: "30d",
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, message: "Server error" });
