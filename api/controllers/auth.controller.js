@@ -120,7 +120,13 @@ export const google = async (req, res, next) => {
       const { password: pass, ...rest } = user._doc;
 
       res
-        .cookie("access_token", token, { httpOnly: true })
+        .cookie("access_token", token, {
+          httpOnly: false,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "None",
+          maxAge: 3600000, // 1 hour
+          path: "/",
+        })
         .status(200)
         .json({ ...rest, _id: user._id }); // ✅ Return _id explicitly
     } else {
@@ -149,7 +155,13 @@ export const google = async (req, res, next) => {
       const { password: pass, ...rest } = newUser._doc;
 
       res
-        .cookie("access_token", token, { httpOnly: true })
+        .cookie("access_token", token, {
+          httpOnly: false,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "None",
+          maxAge: 3600000, // 1 hour
+          path: "/",
+        })
         .status(200)
         .json({ ...rest, _id: newUser._id }); // ✅ Also here
     }
