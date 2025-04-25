@@ -56,11 +56,16 @@ const corsOptions = {
     }
   },
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Added OPTIONS method
+  allowedHeaders: ["Content-Type", "Authorization", "credentials"], // Added 'credentials'
 };
 
 app.use(cors(corsOptions));
+
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  next();
+});
 
 app.get("/", (req, res) => {
   res.send("Hello from Campus Notes API");
