@@ -14,8 +14,8 @@ const router = express.Router();
 
 router.post("/archive/:id", verifyToken, archiveNote);
 router.get("/archived/:id", verifyToken, getArchives);
-router.post("/remove-archive/:noteId ", verifyToken, removeArchiveNote);
-router.post("/remove-archive/:id", verifyToken, removeArchiveNote); // ✅ make sure this exists
+// router.post("/remove-archive/:noteId ", verifyToken, removeArchiveNote);
+router.post("/remove-archive/:id", verifyToken, removeArchiveNote); //
 
 router.get("/", getAllNotes); // Get all notes
 router.put("/:id/like", verifyToken, likeNote); // Like/unlike
