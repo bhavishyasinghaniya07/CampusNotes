@@ -59,7 +59,16 @@ const Signup = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <h2 className="text-yellow-500 text-center mb-5">
+          <span className="text-yellow-700 font-bold">Note:</span>
+          "Please sign in using Google. Email and password sign-in is currently
+          under maintenance."
+        </h2>
+
+        <form
+          // onSubmit={handleSubmit}
+          className="space-y-6"
+        >
           <div className="space-y-4">
             <div>
               <label
