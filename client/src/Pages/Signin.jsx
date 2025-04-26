@@ -75,8 +75,8 @@ const SignIn = () => {
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Sign In</h1>
-      <h2 className="text-red-500 text-center mb-5">
-        <span className="text-red-700 font-bold">Note:</span>
+      <h2 className="text-yellow-500 text-center mb-5">
+        <span className="text-yellow-700 font-bold">Note:</span>
         "Please sign in using Google. Email and password sign-in is currently
         under maintenance."
       </h2>
@@ -100,7 +100,7 @@ const SignIn = () => {
           required
         />
         <button
-          type="submit"
+          type=""
           disabled={loading}
           className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
