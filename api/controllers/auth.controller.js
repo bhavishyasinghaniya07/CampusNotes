@@ -128,7 +128,7 @@ export const google = async (req, res, next) => {
           path: "/",
         })
         .status(200)
-        .json({ ...rest, _id: user._id }); // ✅ Return _id explicitly
+        .json({ ...rest, _id: user._id });
     } else {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
@@ -163,7 +163,7 @@ export const google = async (req, res, next) => {
           path: "/",
         })
         .status(200)
-        .json({ ...rest, _id: newUser._id }); // ✅ Also here
+        .json({ ...rest, _id: newUser._id });
     }
   } catch (error) {
     next(error);

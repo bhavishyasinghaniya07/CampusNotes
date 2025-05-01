@@ -253,11 +253,6 @@ const CreateUploading = () => {
         }
       }
 
-      // // Explicitly add the current user ID if available
-      // if (currentUser && currentUser._id) {
-      //   form.append("uploader", currentUser._id);
-      // }
-
       // Log form data for debugging
       console.log("Form data keys:", [...form.keys()]);
       console.log(
@@ -588,7 +583,7 @@ const CreateUploading = () => {
                       className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none"
                     >
                       <span>Upload a file</span>
-                      {/* Important: Use 'file' as the name to match what the server expects */}
+
                       <input
                         id="fileUpload"
                         name="file"

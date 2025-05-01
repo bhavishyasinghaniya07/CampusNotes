@@ -37,41 +37,6 @@ export const verifyToken = (req, res, next) => {
   }
 };
 
-// export const verifyToken = (req, res, next) => {
-//   try {
-//     let token;
-
-//     // Check token from cookies
-//     if (req.cookies?.access_token) {
-//       console.log("Token from cookies:", req.cookies.access_token);
-//       token = req.cookies.access_token;
-//     }
-
-//     // Check token from Authorization header
-//     else if (req.headers.authorization?.startsWith("Bearer ")) {
-//       token = req.headers.authorization.split(" ")[1];
-//     }
-
-//     if (!token) {
-//       return res
-//         .status(403)
-//         .json({ success: false, message: "No token provided" });
-//     }
-
-//     // Verify token
-//     const decodedVerified = jwt.verify(token.trim(), process.env.JWT_SECRET);
-//     req.user = decodedVerified;
-
-//     next();
-//   } catch (error) {
-//     return res.status(401).json({
-//       success: false,
-//       message: "Unauthorized",
-//       error: process.env.NODE_ENV === "development" ? error.message : undefined,
-//     });
-//   }
-// };
-
 // Middleware to verify admin role
 export const verifyAdmin = (req, res, next) => {
   verifyToken(req, res, () => {

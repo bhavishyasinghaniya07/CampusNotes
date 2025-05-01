@@ -6,8 +6,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleUploadClick = () => {
-    // If you're storing token in localStorage (e.g., after login)
-    const isLoggedIn = !!localStorage.getItem("token"); // or "user" if you're storing user info
+    const isLoggedIn = !!localStorage.getItem("token");
 
     if (isLoggedIn) {
       navigate("/uploading-notes");

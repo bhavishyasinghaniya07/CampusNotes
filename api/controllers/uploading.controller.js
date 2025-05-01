@@ -1,156 +1,4 @@
-// import Note from "../models/uploading.model.js";
-// import { errorHandler } from "../utils/error.js";
-// import fs from "fs";
-// import multer from "multer";
-// import { v2 as cloudinary } from "cloudinary";
-// import dotenv from "dotenv";
-// dotenv.config();
-// import https from "https";
 
-// // Configure Cloudinary
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-//   secure: true,
-// });
-
-// // Create robust storage configuration
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "api/uploads");
-//   },
-//   filename: function (req, file, cb) {
-//     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-//     // Preserve original extension
-//     const fileExt = file.originalname.split(".").pop();
-//     cb(null, file.fieldname + "-" + uniqueSuffix + "." + fileExt);
-//   },
-// });
-
-// // File filter to validate and log incoming files
-// const fileFilter = (req, file, cb) => {
-//   // Log incoming file details
-//   cb(null, true);
-// };
-
-// // Configure multer with enhanced options
-// const upload = multer({
-//   storage: storage,
-//   fileFilter: fileFilter,
-//   limits: {
-//     fileSize: 10 * 1024 * 1024, // 10MB limit
-//   },
-// });
-
-// // Helper function to upload files to Cloudinary
-// const uploadToCloudinary = async (filePath) => {
-//   return new Promise((resolve, reject) => {
-//     cloudinary.uploader.upload(
-//       filePath,
-//       { resource_type: "auto" }, // Auto-detect file type
-//       (error, result) => {
-//         if (error) return reject(error);
-//         // Clean up the local file after upload
-//         fs.unlinkSync(filePath);
-//         resolve(result);
-//       }
-//     );
-//   });
-// };
-
-// export const notesUploading = async (req, res, next) => {
-//   try {
-//     // Check if we have a file or fileUrl
-//     let fileUrl = "";
-//     let fileName = "";
-//     let fileType = "";
-
-//     if (req.file) {
-//       try {
-//         // Upload to Cloudinary with proper file type detection
-//         const result = await uploadToCloudinary(req.file.path);
-
-//         // Use the Cloudinary result
-//         fileUrl = result.secure_url;
-//         fileName = req.file.originalname || "Uploaded File";
-//         fileType = req.file.mimetype || "application/octet-stream";
-//       } catch (cloudinaryError) {
-//         console.error("Cloudinary upload error:", cloudinaryError);
-//         return res.status(500).json({
-//           success: false,
-//           message: "Error uploading file to cloud storage",
-//         });
-//       }
-//     } else if (req.body.fileUrl) {
-//       fileUrl = req.body.fileUrl;
-//       fileName = req.body.fileName || "Unnamed from URL";
-//       fileType = req.body.fileType || "application/octet-stream"; // Set generic type instead of "url"
-//     } else {
-//       return res.status(400).json({
-//         success: false,
-//         message: "No file or file URL provided",
-//       });
-//     }
-
-//     // Log the file details for debugging
-
-//     // Get other form fields with default values if missing
-//     const title = req.body.title || "";
-//     const description = req.body.description || "";
-//     const collegeName = req.body.collegeName || "";
-//     const courseName = req.body.courseName || "";
-//     const batch = req.body.batch || "";
-//     const subjectName = req.body.subjectName || "";
-//     const semester = req.body.semester || "";
-//     const uploader = req.body.uploader || req.user?.id; // Fallback to the authenticated user's ID
-
-//     // Validate required fields
-//     const missingFields = [];
-//     if (!title) missingFields.push("title");
-//     if (!collegeName) missingFields.push("collegeName");
-//     if (!courseName) missingFields.push("courseName");
-//     if (!batch) missingFields.push("batch");
-//     if (!subjectName) missingFields.push("subjectName");
-//     if (!semester) missingFields.push("semester");
-//     if (!uploader) missingFields.push("uploader");
-
-//     if (missingFields.length > 0) {
-//       return res.status(400).json({
-//         success: false,
-//         message: `Missing required fields: ${missingFields.join(", ")}`,
-//       });
-//     }
-
-//     // Create a new note document
-//     const uploading = await Note.create({
-//       title,
-//       description,
-//       collegeName,
-//       courseName,
-//       batch,
-//       subjectName,
-//       semester,
-//       uploader,
-//       fileUrl,
-//       fileName,
-//       fileType,
-//     });
-
-//     // Return success response
-//     return res.status(201).json({
-//       success: true,
-//       message: "Note uploaded successfully",
-//       data: uploading,
-//     });
-//   } catch (error) {
-//     console.error("Error uploading note:", error);
-//     res.status(500).json({
-//       success: false,
-//       message: error.message || "Server error occurred",
-//     });
-//   }
-// };
 
 import Note from "../models/uploading.model.js";
 import { errorHandler } from "../utils/error.js";
@@ -408,8 +256,8 @@ export const getNotes = async (req, res, next) => {
   }
 
   try {
-    // Update was called but no update was needed,
-    // we'll just use findById instead of findByIdAndUpdate
+    
+   
     res.status(200).json({
       success: true,
       note,
@@ -482,9 +330,6 @@ export const downloadNote = async (req, res, next) => {
     if (note.fileType) {
       res.setHeader("Content-Type", note.fileType);
     }
-
-    // Proxy the request to Cloudinary instead of redirecting
-    // You can use a library like 'axios' or Node's built-in http/https
 
     https
       .get(note.fileUrl, (fileResponse) => {

@@ -22,22 +22,6 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
     setAdminInfo(user);
   }, []);
 
-  // const handleSignOut = async () => {
-  //   try {
-  //     const res = await fetch("/api/auth/signout", {
-  //       method: "POST",
-  //       credentials: "include",
-  //     });
-  //     const data = await res.json();
-  //     if (data) {
-  //       localStorage.removeItem("user");
-  //       navigate("/signin");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error signing out:", error);
-  //   }
-  // };
-
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());

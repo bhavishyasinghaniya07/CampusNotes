@@ -8,10 +8,10 @@ import { CgProfile } from "react-icons/cg";
 import { useSelector } from "react-redux";
 
 const api = axios.create({
-  baseURL: "https://campusnotes-api.onrender.com/api", // Backend API
-  withCredentials: true, // Ensure credentials (cookies) are sent with requests
+  baseURL: "https://campusnotes-api.onrender.com/api", 
+  withCredentials: true, 
   headers: {
-    Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Use the correct token
+    Authorization: `Bearer ${localStorage.getItem("authToken")}`, 
   },
 });
 
@@ -163,18 +163,7 @@ const BrowseNotes = () => {
   const [note, setNote] = useState(null);
   const { currentUser } = useSelector((state) => state.user);
 
-  // const handleClick = () => {
-  //   if (currentUser) {
-  //     if (note) {
-  //       downloadFile(note.fileUrl, note.title);
-  //     } else {
-  //       console.error("No note selected");
-  //     }
-  //   } else {
-  //     navigate("/sign-in");
-  //   }
-  // };
-
+ 
   // Added filter states
   const [filters, setFilters] = useState({
     subject: "",
@@ -225,9 +214,9 @@ const BrowseNotes = () => {
         }
       );
 
-      setNotes(response.data.notes); // Update state with fetched notes
+      setNotes(response.data.notes); 
 
-      // Extract unique filter options from data if not already populated
+      
       if (filterOptions.subjects.length === 0) {
         extractFilterOptions(response.data.notes);
       }
@@ -246,8 +235,7 @@ const BrowseNotes = () => {
     }
 
     try {
-      // You could have a separate API endpoint for suggestions
-      // or just filter from existing data
+      
       const response = await axios.get(
         "https://campusnotes-api.onrender.com/api/search-suggestions",
         {
@@ -255,8 +243,7 @@ const BrowseNotes = () => {
         }
       );
 
-      // If you don't have a suggestions endpoint, you could use this mockup:
-      // Simulate API response with notes titles and subjects
+      
       const allItems = [
         ...notes.map((note) => note.title),
         ...filterOptions.subjects,
@@ -337,7 +324,7 @@ const BrowseNotes = () => {
   const likeNote = async (id) => {
     try {
       await api.put(`/notes/${id}/like`);
-      fetchNotes(); // Refresh the notes list after like/unlike action
+      fetchNotes(); 
     } catch (err) {
       console.error("Error liking note:", err);
     }
@@ -369,12 +356,12 @@ const BrowseNotes = () => {
   // Open Comments Section for a Note
   const openComments = (note) => {
     setSelectedNote(note);
-    setCommentText(""); // Clear the previous comment
+    setCommentText(""); 
   };
 
   // Add Comment
   const addComment = async () => {
-    if (!commentText.trim()) return; // Do nothing if comment is empty
+    if (!commentText.trim()) return; 
     try {
       await api.post(`/notes/${selectedNote._id}/comment`, {
         text: commentText,
@@ -382,7 +369,7 @@ const BrowseNotes = () => {
       const updated = await api.get(`/notes?search=${selectedNote._id}`);
       setSelectedNote(updated.data.notes[0]);
       setCommentText("");
-      fetchNotes(); // Refresh the list to sync comments count
+      fetchNotes(); 
     } catch (err) {
       console.error("Error adding comment:", err);
     }

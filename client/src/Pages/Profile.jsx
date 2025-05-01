@@ -178,29 +178,6 @@ const Profile = () => {
     }
   };
 
-  // const handleRemoveArchive = async (noteId) => {
-  //   try {
-  //     const res = await fetch(
-  //       `${import.meta.env.VITE_API_URL}/api/notes/remove-archive/${noteId}`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${currentUser.token}`,
-  //           credentials: "include",
-  //         },
-  //       }
-  //     );
-  //     const data = await res.json();
-  //     if (data.success === false) {
-  //       return;
-  //     }
-  //     setarchivedNotes((prev) => prev.filter((note) => note._id !== noteId));
-  //   } catch (error) {
-  //     console.log("Error removing archived note:", error.message);
-  //   }
-  // };
-
   const handleRemoveArchive = async (noteId) => {
     try {
       const res = await fetch(
@@ -211,7 +188,7 @@ const Profile = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${currentUser.token}`,
           },
-          credentials: "include", // This is a fetch option, not a header
+          credentials: "include", 
         }
       );
       const data = await res.json();

@@ -271,7 +271,6 @@ const UpdateNotes = () => {
           body: form,
           credentials: "include",
         }
-        
       );
 
       if (!res.ok) {
@@ -285,7 +284,7 @@ const UpdateNotes = () => {
       if (data.success === false) {
         setError(data.message);
       } else {
-        alert("Note updated successfully ✅");
+        alert("Note updated successfully ");
         navigate(`/notes/${params.updateId}`);
       }
     } catch (err) {

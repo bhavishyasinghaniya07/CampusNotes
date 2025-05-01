@@ -6,7 +6,7 @@ import { v2 as cloudinary } from "cloudinary";
 cloudinary.config({
   cloud_name: "dinn2svqr",
   api_key: "477623572645727",
-  api_secret: "58Bj2smsT6A0oV2bL9gDa-pKIOY", // Click 'View API Keys' above to copy your API secret
+  api_secret: "58Bj2smsT6A0oV2bL9gDa-pKIOY", 
 });
 
 cloudinary.api.ping((err, res) => {

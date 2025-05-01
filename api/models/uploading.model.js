@@ -26,7 +26,7 @@ const noteSchema = new mongoose.Schema({
   },
   fileUrl: {
     type: String,
-    // required: true, // PDF/file upload URL
+    // required: true, 
   },
   uploader: {
     type: mongoose.Schema.Types.ObjectId,

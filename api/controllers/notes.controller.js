@@ -64,18 +64,6 @@ export const archiveNote = async (req, res, next) => {
   }
 };
 
-// // Get all archived notes for a user
-// export const getArchivedNotes = async (req, res) => {
-//   const { userId } = req.params;
-
-//   try {
-//     const notes = await Note.find({ userId, archived: true });
-//     res.status(200).json({ success: true, notes });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// };
-
 export const getArchives = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id).populate("archivedNotes");
@@ -85,7 +73,7 @@ export const getArchives = async (req, res, next) => {
   }
 };
 
-// 🔍 Get all notes with optional search/filter
+//  Get all notes with optional search/filter
 export const getAllNotes = async (req, res, next) => {
   try {
     const { search, subject, college, semester, course, batch } = req.query;
@@ -118,7 +106,7 @@ export const getAllNotes = async (req, res, next) => {
   }
 };
 
-// ❤ Like/unlike note
+//  Like/unlike note
 export const likeNote = async (req, res, next) => {
   try {
     const note = await Notes.findById(req.params.id);
@@ -140,7 +128,7 @@ export const likeNote = async (req, res, next) => {
   }
 };
 
-// 💬 Comment on note
+//  Comment on note
 export const commentOnNote = async (req, res, next) => {
   try {
     const note = await Notes.findById(req.params.id);

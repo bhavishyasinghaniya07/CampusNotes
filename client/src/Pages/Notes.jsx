@@ -41,13 +41,13 @@ const Notes = () => {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        alert("Note archived successfully ✅");
+        alert("Note archived successfully");
       } else {
-        alert(data.message || "Failed to archive the note ❌");
+        alert(data.message || "Failed to archive the note");
       }
     } catch (error) {
       console.error("Error archiving note:", error);
-      alert("Something went wrong while archiving 🚨");
+      alert("Something went wrong while archiving");
     }
   };
 
@@ -95,11 +95,11 @@ const Notes = () => {
         setEditingCommentId(null);
         setEditedCommentText("");
       } else {
-        alert(data.message || "Failed to update comment ❌");
+        alert(data.message || "Failed to update comment ");
       }
     } catch (error) {
       console.error("Error updating comment:", error);
-      alert("Something went wrong while updating comment 🚨");
+      alert("Something went wrong while updating comment ");
     }
   };
 
@@ -129,11 +129,11 @@ const Notes = () => {
           ),
         });
       } else {
-        alert(data.message || "Failed to delete comment ❌");
+        alert(data.message || "Failed to delete comment ");
       }
     } catch (error) {
       console.error("Error deleting comment:", error);
-      alert("Something went wrong while deleting comment 🚨");
+      alert("Something went wrong while deleting comment ");
     }
   };
 

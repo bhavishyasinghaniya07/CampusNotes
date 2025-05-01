@@ -20,12 +20,12 @@ export const updateUser = async (req, res, next) => {
       email: req.body.email,
     };
 
-    // 🔐 If password is being updated
+    //  If password is being updated
     if (req.body.password) {
       updateData.password = bcrypt.hashSync(req.body.password, 10);
     }
 
-    // 📷 If a new avatar image is uploaded
+    //  If a new avatar image is uploaded
     if (req.file && req.file.path) {
       console.log("File path:", req.file.path);
 
