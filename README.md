@@ -55,7 +55,7 @@ CampusNotes is a full-stack web application that enables university students to 
 3. **Install backend dependencies**
 
    ```bash
-   cd ../server
+   cd ../api
    npm install
    ```
 
@@ -85,7 +85,7 @@ CampusNotes is a full-stack web application that enables university students to 
 ```
 CampusNotes/
 ├── client/          # React frontend
-├── server/          # Express backend
+├── api/          # Express backend
 ├── .env             # Environment variables (not committed)
 └── README.md
 ```
