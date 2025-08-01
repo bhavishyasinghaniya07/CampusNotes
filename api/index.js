@@ -39,7 +39,7 @@ const allowedOrigins = [
 ];
 
 
-import cors from "cors";
+
 
 const allowedOrigins = [
   "https://campusnotes-amh9.onrender.com",
