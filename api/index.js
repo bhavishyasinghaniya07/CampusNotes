@@ -32,20 +32,31 @@ mongoose
 
 const app = express();
 
-// // CORS configuration - IMPORTANT: This must be before any other middleware
-// const allowedOrigins = [
-//   "https://campusnotes-amh9.onrender.com",
-//   "http://localhost:3000",
-// ];
-
-
-
 
 const allowedOrigins = [
   "https://campusnotes-amh9.onrender.com",
   "http://localhost:3000"
 ];
 
+// Handle preflight (OPTIONS) requests manually
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+  }
+
+  // Respond to preflight requests
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
+// Then use cors middleware as fallback
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -56,6 +67,31 @@ app.use(cors({
   },
   credentials: true
 }));
+
+// // CORS configuration - IMPORTANT: This must be before any other middleware
+// const allowedOrigins = [
+//   "https://campusnotes-amh9.onrender.com",
+//   "http://localhost:3000",
+// ];
+
+
+
+
+// const allowedOrigins = [
+//   "https://campusnotes-amh9.onrender.com",
+//   "http://localhost:3000"
+// ];
+
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true
+// }));
 
 
 // // First, set CORS headers manually for all responses, including error responses
