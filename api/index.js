@@ -32,11 +32,11 @@ mongoose
 
 const app = express();
 
-// CORS configuration - IMPORTANT: This must be before any other middleware
-const allowedOrigins = [
-  "https://campusnotes-amh9.onrender.com",
-  "http://localhost:3000",
-];
+// // CORS configuration - IMPORTANT: This must be before any other middleware
+// const allowedOrigins = [
+//   "https://campusnotes-amh9.onrender.com",
+//   "http://localhost:3000",
+// ];
 
 
 
